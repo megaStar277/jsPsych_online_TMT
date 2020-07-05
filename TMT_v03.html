@@ -28,11 +28,17 @@
         'tmt_A_black.jpg','tmt_B_black.jpg'
         ];
 
-     // Aca intento automatizar esto:
-    // let timelineVariables = [];    
-    // for (imag in images){
-    //     timelineVariables.push('{fileName: ' +  images[imag] + '},')
-    // } 
+
+    //  Aca intento automatizar esto...
+    var container = { }; // main object
+    timelineVariables = [];    
+       
+    for (imag in images){
+        timelineVariables.push(container['prop'+ imag ]   = { 'fileName': images[imag]}
+        ); 
+    } 
+
+    console.log(timelineVariables)
 
 
     var extra_image = {
@@ -143,13 +149,13 @@
                 data: {'file_name': jsPsych.timelineVariable('fileName')} // for identification
             }
         ],
-        timeline_variables: [ 
+        timeline_variables: 
+        timelineVariables
 
-
-            {fileName: images[0]},
-            {fileName: images[1]},
+            // {fileName: images[0]},
+            // {fileName: images[1]},
             // {fileName: images[2]}
-        ],
+        ,
         repetitions: 1,
         randomize_order: false
     }
