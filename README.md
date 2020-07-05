@@ -1,5 +1,5 @@
 # jsPsych_online_TMT
-Digital version of the widely used Trail Making Test using [jsPsych](https://github.com/jspsych/jsPsych) library and  jspsych-psychophysics [jspsych-psychophysics](https://github.com/kurokida/jspsych-psychophysics) plugin in JavaScript 
+Digital version of the widely used Trail Making Test using [jsPsych](https://github.com/jspsych/jsPsych) library and [jspsych-psychophysics](https://github.com/kurokida/jspsych-psychophysics) plugin in JavaScript 
 
 
 ## From Wikipedia: 
