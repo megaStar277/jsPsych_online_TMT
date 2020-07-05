@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jspsych/jspsych.js"></script>
+  
+    <script src="jspsych/plugins/jspsych-call-function.js"></script>
+    <script src="jspsych/plugins/jspsych-fullscreen.js"></script>
+    <script src="jspsych/plugins/jspsych-psychophysics_modified.js"></script>
+    <link rel="stylesheet" href="C:\Users\Gustavo\Desktop\Tesis doctoral Juantorena\tmt_online/jspsych/css/jspsych.css"></link>
+    
+</head>
+<body></body>
+<script>
+    
+    // x,y coordinates of the mouse
+    let x = 0;
+    let y = 0; 
+    isDrawing = false;
+
+    
+
+    
+    // I put this to show fixation cross during this amount of time
+    var delayInMilliseconds = 1000; //1 second
+
+    // All the images to present
+    images = [ 
+        'tmt_A_black.jpg','tmt_B_black.jpg'
+        ];
+
+     // Aca intento automatizar esto:
+    // let timelineVariables = [];    
+    // for (imag in images){
+    //     timelineVariables.push('{fileName: ' +  images[imag] + '},')
+    // } 
+
+
+    var extra_image = {
+        obj_type: 'image',
+        file: jsPsych.timelineVariable('fileName'),
+        
+        // show_start_time: 100,
+        // horiz_pix_sec: 30,
+        // show_start_time: 500,
+        //  motion_start_time: 1000,
+        startX: 1100,// image position
+        startY: 150,
+        drawFunc: function(stimulus, canvas, context){
+        setTimeout(function() { // putting a delay time to show the image
+        context.drawImage(stimulus.img, 0, 0, stimulus.img.width, 
+        stimulus.img.height, stimulus.currentX/2, stimulus.currentY/2, 
+        stimulus.img.width/1.5 , stimulus.img.height/1.5);
+    }, delayInMilliseconds);
+             
+        }
+    }
+
+    var extra_cross = {
+        obj_type: 'cross', // fixation
+        line_length: 20, // pixels
+        line_width: 4,
+        // show_start_time: 500,
+        drawFunc: function(stimulus, canvas, context){
+            canvas.addEventListener('mousedown', e => {
+       console.log('entro a mousedown');
+      
+        x = e.offsetX;
+        y = e.offsetY;
+
+        isDrawing = true;
+      });  
+
+            {
+    
+      context.beginPath();            
+      context.lineWidth = stimulus.line_width;
+      context.lineJoin = stimulus.lineJoin;
+      context.miterLimit = stimulus.miterLimit;
+      //
+      context.strokeStyle = 'white';
+      const x1 = stimulus.currentX;
+      const y1 = stimulus.currentY - stimulus.line_length/2;
+      const x2 = stimulus.currentX;
+      const y2 = stimulus.currentY + stimulus.line_length/2;                
+      context.moveTo(x1, y1);
+      context.lineTo(x2, y2);
+      const x3 = stimulus.currentX - stimulus.line_length/2;
+      const y3 = stimulus.currentY;
+      const x4 = stimulus.currentX + stimulus.line_length/2;
+      const y4 = stimulus.currentY;                
+      context.moveTo(x3, y3);
+      context.lineTo(x4, y4);
+      // ctx.closePath();
+      context.stroke();
+    }
+        }
+    }
+
+    var fullScreen = {
+        type: 'fullscreen',
+        fullscreen_mode: true,
+        message: '<p>El experimento ira a pantalla completa cuando usted presione el boton que se encuentra debajo</p>',
+        button_label: 'Continuar a pantalla completa'    
+    }    
+    var text_object = {
+      obj_type: 'text',
+      content: 'Se le mostrara una pantalla con circulos.\n Tendra que unirlos en orden ascendente, por favor presione la barra espaciadora para continuar.',
+      font: "24px 'Arial'",
+      text_color: 'white',
+      text_space: 100,
+    }
+
+    var instruction = {
+        type: 'psychophysics',
+        stimuli: [text_object],
+        choices: ['space'],
+    }
+
+    var trial = {
+        timeline: [
+                
+            {
+                type: 'psychophysics',
+                stimuli: [
+                
+                extra_cross,    
+                extra_image,
+                
+                    
+                    {
+                        obj_type: 'image',
+                        file: jsPsych.timelineVariable('fileNamxe'), // tngo que romper esto para que ande
+                        //  show_start_time: 1000 // ms after the start of the trial //
+                         
+                    },
+                    
+                ],
+                response_type: 'mouse',
+                background_color: 'black',
+                canvas_height: 850,
+                canvas_width: 1600,
+                // prompt: 'Press any key to proceed.'
+                data: {'file_name': jsPsych.timelineVariable('fileName')} // for identification
+            }
+        ],
+        timeline_variables: [ 
+
+
+            {fileName: images[0]},
+            {fileName: images[1]},
+            // {fileName: images[2]}
+        ],
+        repetitions: 1,
+        randomize_order: false
+    }
+
+    jsPsych.init({
+        timeline: [fullScreen, trial],
+        preload_images: images, // Image data should be preloaded
+        on_finish: function()
+        {jsPsych.data.displayData ();
+        jsPsych.data.get()}
+    });
+</script>
+
+</html>
