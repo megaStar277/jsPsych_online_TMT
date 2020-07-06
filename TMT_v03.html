@@ -4,23 +4,24 @@
     <script src="jspsych/jspsych.js"></script>
   
     <script src="jspsych/plugins/jspsych-call-function.js"></script>
-    <script src="jspsych/plugins/jspsych-fullscreen.js"></script>
+    <script src="jspsych/plugins/jspsych-fullscreen.js"></script>   
     <script src="jspsych/plugins/jspsych-psychophysics_modified.js"></script>
+    <script src="jspsych/plugins/jspsych-survey-html-form.js"></script>
+
+    <script src="utils.js"></script>
+
     <link rel="stylesheet" href="C:\Users\Gustavo\Desktop\Tesis doctoral Juantorena\tmt_online/jspsych/css/jspsych.css"></link>
     
 </head>
 <body></body>
 <script>
     
-    // x,y coordinates of the mouse
+    // (x , y) coordinates of the mouse
     let x = 0;
     let y = 0; 
     isDrawing = false;
 
-    
-
-    
-    // I put this to show fixation cross during this amount of time
+    // I put this to show fixation cross during this amount of time.
     var delayInMilliseconds = 1000; //1 second
 
     // All the images to present
@@ -28,9 +29,9 @@
         'tmt_A_black.jpg','tmt_B_black.jpg'
         ];
 
-
-    //  Aca intento automatizar esto...
-    var container = { }; // main object
+    
+    // store all images names in an array of objects {'fileName': images[imag]}
+    let container = { }; // main object
     timelineVariables = [];    
        
     for (imag in images){
@@ -38,17 +39,30 @@
         ); 
     } 
 
-    console.log(timelineVariables)
+    // The blocks of the experiment 
 
+    // Welcome
+        var welcome_block = {
+            data: {
+                screen_id: "Bienvenidx"
+            },
+            type: "survey-html-form",
+            preamble: "<p>Bienvenidx al experimento!</p>" +
+                "Por favor completa los siguientes datos",
+            // html: "<p>Participant ID: <input name='Part_ID' type='text' /></p>" 
+            html: '<p> Nombre <input name="name" type="text" /></p> Edad <input name="age" type="text" /> </p> Género <input name="gender" type="text" /></p> E-mail <input name="mail" type="text" /></p>'
+            // on_finish: function(data) {
+            //     responses = JSON.parse(data.responses);
+            //     jsPsych.data.addProperties({
+            //         part_ID: responses.Part_ID,
+            //         ID_DATE: responses.Part_ID + "_" + DATE,
+                // })
+            }
+        // };
 
     var extra_image = {
         obj_type: 'image',
         file: jsPsych.timelineVariable('fileName'),
-        
-        // show_start_time: 100,
-        // horiz_pix_sec: 30,
-        // show_start_time: 500,
-        //  motion_start_time: 1000,
         startX: 1100,// image position
         startY: 150,
         drawFunc: function(stimulus, canvas, context){
@@ -56,6 +70,10 @@
         context.drawImage(stimulus.img, 0, 0, stimulus.img.width, 
         stimulus.img.height, stimulus.currentX/2, stimulus.currentY/2, 
         stimulus.img.width/1.5 , stimulus.img.height/1.5);
+
+        console.log(stimulus.img, 0, 0, 'img.width: ' + stimulus.img.width, 
+        'img.height: ' + stimulus.img.height, 'img positition X: ' +stimulus.currentX/2, 'img positition Y: ' +stimulus.currentY/2, 
+        'img.width: ' +stimulus.img.width/1.5 , 'img.height: ' +stimulus.img.height/1.5)
     }, delayInMilliseconds);
              
         }
@@ -76,7 +94,7 @@
         isDrawing = true;
       });  
 
-            {
+     {
     
       context.beginPath();            
       context.lineWidth = stimulus.line_width;
@@ -150,7 +168,10 @@
             }
         ],
         timeline_variables: 
-        timelineVariables
+            
+            timelineVariables
+
+            // timelineVariables remmplace the previous format:
 
             // {fileName: images[0]},
             // {fileName: images[1]},
@@ -161,11 +182,16 @@
     }
 
     jsPsych.init({
-        timeline: [fullScreen, trial],
+        timeline: [welcome_block,fullScreen,instruction, trial],
         preload_images: images, // Image data should be preloaded
         on_finish: function()
         {jsPsych.data.displayData ();
-        jsPsych.data.get()}
+        let json = jsPsych.data.get().json();
+        let filename = 'tmt_data.json';
+        
+        downloadJSON(json, filename);
+        
+        }
     });
 </script>
 
