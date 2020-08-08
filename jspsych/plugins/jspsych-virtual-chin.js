@@ -172,6 +172,7 @@ function recordPosition(event, angle=13.5) {
             // You can then DO SOMETHING HERE TO PROCEED TO YOUR NEXT STEPS OF THE EXPERIMENT. For example, add a button to go to the next page.
 
             // The trial must end 
+            end_trial();
 
             //save data ... I guess data["viewDistance_mm"]/10
 
