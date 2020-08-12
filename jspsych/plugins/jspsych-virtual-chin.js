@@ -179,10 +179,6 @@ function recordPosition(event, angle=13.5) {
             // $('#info-h').append(data["viewDistance_mm"]/10)
 
 
-
-            // You can then DO SOMETHING HERE TO PROCEED TO YOUR NEXT STEPS OF THE EXPERIMENT. For example, add a button to go to the next page.
-            display_element.innerHTML = `<p>Press space bar to start the experiment.</p>`
-
             //save data ... I guess data["viewDistance_mm"]/10
 
             trial_data.viewing_distance = (data["viewDistance_mm"]/10); // add to trial_data
@@ -191,6 +187,9 @@ function recordPosition(event, angle=13.5) {
 
             // The trial must end 
             end_trial();
+
+            // You can then DO SOMETHING HERE TO PROCEED TO YOUR NEXT STEPS OF THE EXPERIMENT. For example, add a button to go to the next page.
+            display_element.innerHTML = `<p>Press space bar to start the experiment.</p>`
 
             return trial_data.viewing_distance;
         }
