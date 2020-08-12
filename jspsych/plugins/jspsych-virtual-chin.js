@@ -19,16 +19,26 @@ jsPsych.plugins['virtual-chin'] = (function() {
       },
       key: {
         type: jsPsych.plugins.parameterType.KEYCODE,
-        default: 31 // SPACEBAR
+        default: 31 // SPACEBAR //  I change this , 31 it`s not space bar
+      },
+      viewing_distance: {
+        type: jsPsych.plugins.parameterType.INT,
+        default: 0
+      },
+      cardWidth_px: {
+        type: jsPsych.plugins.parameterType.INT,
+        default: 0
       }
     }
   }
-
+  
   plugin.trial = function(display_element, trial) {
 
+    
     // data saving
-    var trial_data = {
-      parameter_name: 'parameter value'
+    var trial_data = { //I need to modify this in order to save important data
+      'viewing_distance': trial.viewing_distance,
+      'cardWidth_px': trial.cardWidth_px
     };
 
 
@@ -60,6 +70,9 @@ function getCardWidth() {
     var cardWidthPx = $('#card').width();
     data["cardWidthPx"] = distanceSetup.round(cardWidthPx,2);
     console.log(cardWidthPx)
+
+    trial_data.cardWidth_px = cardWidthPx // add to trial_data
+
     return cardWidthPx
 }
 
@@ -76,8 +89,6 @@ function configureBlindSpot() {
     //   console.log('apretaste la barra');
     //   recordPosition();
     // });
-
-
 
 };
 
@@ -160,23 +171,28 @@ function recordPosition(event, angle=13.5) {
             // Disable space key
             $('html').bind('keydown', function(e)
             {
-               if (e.keyCode == 32) {return false;}
+               if (e.keyCode == 32) {return false;} //32 is spacebar
             });
 
-            // Display data
-            $('#info').css("visibility", "visible");
-            $('#info-h').append(data["viewDistance_mm"]/10)
+            // // Display data
+            // $('#info').css("visibility", "visible");
+            // $('#info-h').append(data["viewDistance_mm"]/10)
 
 
 
             // You can then DO SOMETHING HERE TO PROCEED TO YOUR NEXT STEPS OF THE EXPERIMENT. For example, add a button to go to the next page.
+            display_element.innerHTML = `<p>Press space bar to start the experiment.</p>`
+
+            //save data ... I guess data["viewDistance_mm"]/10
+
+            trial_data.viewing_distance = (data["viewDistance_mm"]/10); // add to trial_data
+
+            console.log(data["viewDistance_mm"]/10);
 
             // The trial must end 
             end_trial();
 
-            //save data ... I guess data["viewDistance_mm"]/10
-
-            return;
+            return trial_data.viewing_distance;
         }
 
         ball.stop();
@@ -226,9 +242,10 @@ Math.radians = function(degrees) {
         html += '<div id="svgDiv" style="width:1000px;height:200px;"></div>';
         html +=  "Hit 'space' <div id='click' style='display:inline; color: red; font-weight: bold'>5</div> more times!</div>";
 
-        html += "<div id='info' style='visibility:hidden'>";
-        html += '<h3 id="info-h">Estimated viewing distance (cm): </h3>';
-        html += "<p id='info-p'>View more output data in the Console in your browser's developer/inspector view.</p></div></div></body>";
+        // html += "<div id='info' style='visibility:hidden'>";
+        
+        // html += '<h3 id="info-h">Estimated viewing distance (cm): </h3>'; // info-h appends data in recordPosition function
+        // html += "<p id='info-p'>View more output data in the Console in your browser's developer/inspector view.</p></div></div></body>";
 
     display_element.innerHTML = html; //
     document.getElementById("btnBlindSpot").addEventListener('click', function() {
@@ -267,7 +284,7 @@ Math.radians = function(degrees) {
     }
 
     function end_trial(){
-      // trial_data.rt =   JSON.stringify(rt); // best practice for saving in jsPsych. It is a JSON instead of array.
+      // trial_data.viewingDistance=   JSON.stringify(viewingDistance); // best practice for saving in jsPsych. It is a JSON instead of array.
       jsPsych.finishTrial(trial_data); // ends trial and save the data
       display_element.innerHTML = ' '; // clear the display
 
