@@ -1,5 +1,5 @@
 /*
- *  plugin based in  Qisheng Li 11/2019. /// Virtual chin rest
+ *  plugin based in  Qisheng Li 11/2019. /// https://github.com/QishengLi/virtual_chinrest
     Modified by Gustavo Juantorena 08/2020
  */
 
