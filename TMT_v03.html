@@ -36,6 +36,8 @@
     <script src="jspsych/plugins/jspsych-survey-html-form.js"></script>
     <script src= 'jspsych/plugins/jspsych-virtual-chin.js'></script>
 
+    
+
     <script src="utils.js"></script>
 
     <!-- survey-html-form -->
@@ -81,7 +83,7 @@
          html: `<p> Nombre <input name="name" type="text" /></p> Edad <input name="age" type="number" /> </p>
          Género <input list="gender" id="gender-choice" name="gender-choice" />
          <datalist id="gender"> <option value="MASCULINO"> <option value="FEMENINO"> <option value="OTRO"></datalist> </p>  
-            E-mail <input name="mail" type="email" /> </p>`,
+            E-mail <input name="mail" type="email" required="required" /> </p>`,
 
         button_label: "Continuar"
          };
@@ -153,9 +155,10 @@
         fullscreen_mode: true,
         message: '<p>El experimento ira a pantalla completa cuando usted presione el boton que se encuentra debajo</p>',
         button_label: 'Continuar a pantalla completa'    
-    }    
+    } 
+    
 
-    var chin = {
+    var chin = {    
         type: 'virtual-chin'
     } 
 
