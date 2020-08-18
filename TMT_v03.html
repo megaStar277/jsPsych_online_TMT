@@ -80,10 +80,10 @@
         type: "survey-html-form",
         preamble: "<p>¡Te damos la bienvenida al experimento!</p>" + "Por favor, completa los siguientes datos: </p> </p> ",
         
-         html: `<p> Nombre <input name="name" type="text" /></p> Edad <input name="age" type="number" /> </p>
-         Género <input list="gender" id="gender-choice" name="gender-choice" />
+         html: `<p> Nombre <input name="name" type="text" required="" /></p> Edad <input name="age" type="number" required="" /> </p>
+         Género <input list="gender" id="gender-choice" name="gender-choice" required="" />
          <datalist id="gender"> <option value="MASCULINO"> <option value="FEMENINO"> <option value="OTRO"></datalist> </p>  
-            E-mail <input name="mail" type="email" required="required" /> </p>`,
+            E-mail <input name="mail" type="email" required="" /> </p>`,
 
         button_label: "Continuar"
          };
