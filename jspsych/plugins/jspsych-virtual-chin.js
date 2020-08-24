@@ -17,6 +17,12 @@ jsPsych.plugins['virtual-chin'] = (function() {
       cardWidth_px: {
         type: jsPsych.plugins.parameterType.INT,
         default: 0
+      },
+      pixels_per_unit: {
+        type: jsPsych.plugins.parameterType.INT,
+        pretty_name: 'Pixels per unit',
+        default: 100,
+        description: 'After the scaling factor is applied, this many pixels will equal one unit of measurement.'
       }
       // prompt_card: {
       //   type: jsPsych.plugins.parameterType.STRING,
@@ -266,13 +272,28 @@ jsPsych.plugins['virtual-chin'] = (function() {
               // </div>
       
 
+
+       // scales the stimulus
+    //     var scale_factor;
+    //     var final_height_px, final_width_px;
+    //     final_width_px = trial.cardWidth_px;
+    //     function scale() {
+    //       final_width_px = scale_div.offsetWidth;
+    //       //final_height_px = scale_div.offsetHeight;
+
+    //       var pixels_unit_screen = final_width_px / trial.item_width;
+
+    //       scale_factor = pixels_unit_screen / trial.pixels_per_unit;
+    //       document.getElementById("jspsych-content").style.transform = "scale(" + scale_factor + ")";
+    // };
       function after_response(response_info){
         // rt.push(response_info.rt); // response time of the key
-        
+        // scale() // Esto lo agregue pero no creo que quede
         end_trial();
       }
 
       function end_trial(){
+        document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
         // trial_data.viewingDistance=   JSON.stringify(viewingDistance); // best practice for saving in jsPsych. It is a JSON instead of array.
         jsPsych.finishTrial(trial_data); // ends trial and save the data
         display_element.innerHTML = ' '; // clear the display

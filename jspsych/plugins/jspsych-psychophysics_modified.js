@@ -568,7 +568,8 @@ jsPsych.plugins["psychophysics"] = (function() {
       const tmpW = stim.img.width * scale;
       const tmpH = stim.img.height * scale;  
 
-      ctx.drawImage(stim.img, 0, 0, stim.img.width, stim.img.height, stim.currentX - tmpW / 2, stim.currentY - tmpH / 2, tmpW, tmpH); 
+      // ctx.drawImage(stim.img, 0, 0, stim.img.width, stim.img.height, stim.currentX - tmpW / 4, stim.currentY - tmpH / 2, tmpW, tmpH); 
+      ctx.drawImage(stim.img, 0, 0, stim.img.width, stim.img.height, stim.currentX - tmpW , stim.currentY - tmpH , tmpW, tmpH); 
   
     }
 
