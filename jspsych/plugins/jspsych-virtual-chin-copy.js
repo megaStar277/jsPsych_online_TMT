@@ -23,7 +23,12 @@ jsPsych.plugins['virtual-chin'] = (function() {
         pretty_name: 'Pixels per unit',
         default: 100,
         description: 'After the scaling factor is applied, this many pixels will equal one unit of measurement.'
-      }
+      },
+      prompt_instructions: {
+        type: jsPsych.plugins.parameterType.STRING,
+        default: null,
+        description: 'Any content here will be displayed above card image.'
+      },
       // prompt_card: {
       //   type: jsPsych.plugins.parameterType.STRING,
       //   default: null,
@@ -189,10 +194,15 @@ jsPsych.plugins['virtual-chin'] = (function() {
 
               // You can then DO SOMETHING HERE TO PROCEED TO YOUR NEXT STEPS OF THE EXPERIMENT. For example, add a button to go to the next page.
               // display_element.innerHTML = `<p>"Press space bar to start the experiment.</p>`
-              display_element.innerHTML =
+              display_element.innerHTML = 
                 
-                `<p style='font-size:160%;'>  Tu distancia a la pantalla es aproximadamente ${dist.toString()} cm </p>`+
-                "<p style='font-size:200%;'> ACÁ VA TODA LA EXPLICACIÓN DEL EXPERIMENTO</p>" 
+                `<p style='font-size:160%;'> Su distancia a la pantalla es de aproximadamente ${dist.toString()} cm </p>
+                <p style='font-size:180%;'> ACÁ VA TODA LA EXPLICACIÓN DEL EXPERIMENTO: <br></p>
+                <p style='font-size:130%;'>  Se le mostrarán circulos en la pantalla y deberá unirlos manteniendo presionado
+                el botón derecho del mouse, <br> al soltarlo se pasará al siguiente ensayo. <br> En los casos en que solo haya
+                números deberá unirlos en forma ascenndente (1-2-3-...), <br> mientras que en aquellos donde haya números y letras
+                deberá hacerlo de forma intercalada (1-A-2-B-3-C-...). <br> Por favor intente hacerlo lo más rápido y correctamente posible. </p>
+                <p style='font-size:200%;'>  Para comenzar por favor presione la barra espaciadora </p>`
 
               return trial_data.viewing_distance_cm;
           }
@@ -217,25 +227,25 @@ jsPsych.plugins['virtual-chin'] = (function() {
           var html = "<body><div id='content'><div id='page-size'><br><br><br><br><br><br>";
           // html += "<h3> Let’s find out what your monitor size is (click to go into <div onclick='fullScreen(); registerClick();' style='display:inline; cursor:pointer; color: red'><em><u>full screen mode</u></em></div>).</h2>";
           
-          html += "<p>Por favor repetí la medición de la tarjeta,pero esta vez utilizando la barra deslizante.</p>";   
+          html += "<p>Por favor repita la medición de la misma tarjeta, pero esta vez utilizando la barra deslizante.</p>";   
           
-          html += "<b style='font-style: italic'>Asegurate de poner la tarjeta sobre la pantalla.</b>";
+          html += "<b style='font-style: italic'>Asegúrese de poner la tarjeta sobre la pantalla.</b>";
           html += '<br><div id="container">';
           html += "<div id='slider'></div>";
           html += '<br> <img id="card" src="card.png" style="width: 50%"><br><br>';
-          html +='<button id="btnBlindSpot" class="btn btn-primary">Aprtá acá cuando termines!</button></div></div>';
+          html +='<button id="btnBlindSpot" class="btn btn-primary">Presione aquí cuando termine!</button></div></div>';
 
         
           html += '<div id="blind-spot" style="visibility: hidden">';
           html += '<!-- <h2 class="bolded-blue">Task 2: Where’s your blind spot?</h2> -->';
-          html += "<h3>Ahora vamos a estimar a que distancia estás de la pantalla.</h3>";
+          html += "<h3>Ahora vamos a estimar su distancia a la pantalla.</h3>";
           
           html += '<h3>Instrucciones</h3>';
-          html += '<p>1. Colocá tu dedo índice en la <b>barra espaciadora</b> </p>';
-          html += '<p>2. Cerrá tu ojo derecho. <em> (Tip:Quizá te resulte más fácil tapándolo con tu mano!)</em></p>';
-          html += '<p>3. Usando tu ojo izquierdo, hacé foco en el cuadrado negro.</p>';
-          html += '<p>4. Apretá el botón de abajo para iniciar la animación de la pelotita roja. Esa <b style="color: red">pelotita roja</b> va a desaparecer de tu vista en algún momento. Ni bien la dejes de ver (siempre enfocando en el cuadrado negro) presioná la barra lo más rápidamente posible.</p><br>';
-          html += '<p>Por favor hacé lo mismo  <b>cinco</b> veces. Mantené tu ojo derecho cerrado y presioná la barra espaciadora lo más rápidamente posible!</p><br>';
+          html += '<p>1. Coloque su dedo índice en la <b>barra espaciadora</b> </p>';
+          html += '<p>2. Cierre su ojo derecho. <em> (Tip:Quizá le resulte más fácil tapándolo con su mano!)</em></p>';
+          html += '<p>3. Usando su ojo izquierdo, haga foco en el cuadrado negro.</p>';
+          html += '<p>4. Presione el botón de abajo para iniciar la animación de la pelotita roja. Esa <b style="color: red">pelotita roja</b> va a desaparecer de su vista en algún momento. Ni bien la deje de ver (siempre enfocando en el cuadrado negro) presione una vez la barra lo más rápidamente posible.</p><br>';
+          html += '<p>Por favor repita el proceso <b>cinco</b> veces. Mantenga su ojo derecho cerrado y presione la barra espaciadora lo más rápidamente posible!</p><br>';
           html += '<button class="btn btn-primary" id="start" ">Empezar</button>';
 
           html += '<div id="svgDiv" style="width:1000px;height:200px;"></div>';
