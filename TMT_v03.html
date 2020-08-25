@@ -55,22 +55,22 @@
     return e.keyCode !== 32;
     };
 
-    // disable scrolling page
-	function disableScroll() { 
-			// Get the current page scroll position 
-			scrollTop = 
-			window.pageYOffset || document.documentElement.scrollTop; 
-			scrollLeft = 
-			window.pageXOffset || document.documentElement.scrollLeft, 
+    // // disable scrolling page
+	// function disableScroll() { 
+	// 		// Get the current page scroll position 
+	// 		scrollTop = 
+	// 		window.pageYOffset || document.documentElement.scrollTop; 
+	// 		scrollLeft = 
+	// 		window.pageXOffset || document.documentElement.scrollLeft, 
 
-				// if any scroll is attempted, 
-				// set this to the previous value 
-				window.onscroll = function() { 
-					window.scrollTo(scrollLeft, scrollTop); 
-				}; 
-		} 
+	// 			// if any scroll is attempted, 
+	// 			// set this to the previous value 
+	// 			window.onscroll = function() { 
+	// 				window.scrollTo(scrollLeft, scrollTop); 
+	// 			}; 
+	// 	} 
         
-    disableScroll(); 
+    // disableScroll(); 
   
         
  
@@ -262,7 +262,7 @@
             // {fileName: images[1]},
             // {fileName: images[2]}
         ,
-        repetitions: 2,
+        repetitions: 1,
         randomize_order: false
     }
 
@@ -274,24 +274,31 @@
             // choices: jsPsych.NO_KEYS
         };
 
+  
     jsPsych.init({
         
-        timeline: [fullScreen, resize_trial, chin, instruction,trial, greetings],
+        timeline: [fullScreen,  chin, instruction,trial, greetings],
+        on_interaction_data_update: function(data) {
+            // get the main trial data
+            var trial = jsPsych.currentTrial();
+            trial.data.screen_focus = data.event;
+        },
         // timeline: [fullScreen, trial],
         // timeline: [fullScreen,resize_trial, chin,instruction,trial],
 
         // timeline: [chin],
         preload_images: images, // Image data should be preloaded
         on_finish: function(){
-        // jsPsych.data.displayData();
+      
+        jsPsych.data.displayData();
         let CSV = jsPsych.data.get().csv();
         let filename = 'tmt_data.csv'; // downloadJSON(json, filename)
         downloadCSV(CSV, filename);
         },
         
         exclusions: {       //minimum browser size values
-            min_width: 500,
-            min_height: 500
+            min_width: 800,
+            min_height: 600
         }
  
         

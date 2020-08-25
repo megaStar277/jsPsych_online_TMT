@@ -168,8 +168,7 @@ jsPsych.plugins["resize"] = (function() {
       var trial_data = {
         'final_height_px': final_height_px,
         'final_width_px': final_width_px,
-        'scale_factor': scale_factor,
-        'viewing_distance_cm': 88 //Not working
+        'scale_factor': scale_factor, 
       }
 
       jsPsych.finishTrial(trial_data);
