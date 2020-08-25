@@ -267,8 +267,8 @@ jsPsych.plugins["psychophysics"] = (function() {
       return;
     }
     const ctx = canvas.getContext('2d');
-    const centerX = canvas.width/2;
-    const centerY = canvas.height/2;
+    const centerX = canvas.width/2; // OJO, ACA MODIFIQUE
+    const centerY = canvas.height/2; // OJO, ACA MODIFIQUE
     
     if (typeof trial.stimuli === 'undefined' && trial.stepFunc === null){
       alert('You have to specify the stimuli/stepFunc parameter in the psychophysics plugin.')
@@ -789,7 +789,7 @@ jsPsych.plugins["psychophysics"] = (function() {
         var trial_data = {
           "rt": response.rt,
           "response_type": trial.response_type,
-          //"stimulus": trial.stimuli,
+          // "stimulus": trial.stimuli,
           "key_press": response.key,
           "avg_frame_time": elapsedTime/sumOfStep,
           "position_x": response.positionX,
@@ -805,7 +805,7 @@ jsPsych.plugins["psychophysics"] = (function() {
         var trial_data = {
           "rt": response.rt,
           "response_type": trial.response_type,
-          //"stimulus": trial.stimuli,
+          // "stimulus": trial.stimuli, 
           "key_press": response.key,
           "avg_frame_time": elapsedTime/sumOfStep,
           "mousePositionX": response.positionX, 

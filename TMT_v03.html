@@ -34,9 +34,10 @@
     <script src="jspsych/plugins/jspsych-fullscreen.js"></script>   
     <script src="jspsych/plugins/jspsych-psychophysics_modified.js"></script>
     <script src="jspsych/plugins/jspsych-survey-html-form.js"></script>
-    <script src= 'jspsych/plugins/jspsych-virtual-chin.js'></script>
+    <script src= 'jspsych/plugins/jspsych-virtual-chin-copy.js'></script>
     <script src="jspsych/plugins/jspsych-resize.js"></script>
-
+    <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>   
+    
     <script src="utils.js"></script>
 
     <!-- survey-html-form -->
@@ -50,19 +51,48 @@
     let x = 0;
     let y = 0; 
     isDrawing = false;
+
+    // To avoid scroll down when press space bar
+    window.onkeydown = function(e) {
+    return e.keyCode !== 32;
+    };
+
+    // disable scrolling page
+	function disableScroll() { 
+			// Get the current page scroll position 
+			scrollTop = 
+			window.pageYOffset || document.documentElement.scrollTop; 
+			scrollLeft = 
+			window.pageXOffset || document.documentElement.scrollLeft, 
+
+				// if any scroll is attempted, 
+				// set this to the previous value 
+				window.onscroll = function() { 
+					window.scrollTo(scrollLeft, scrollTop); 
+				}; 
+		} 
+        
+    disableScroll(); 
+  
+        
  
     // presentation time of the fixation cross
     var delayInMilliseconds = 1000; //1 second
 
     // All the images to present
     // images = [ 
-    //     'happy_face_4.jpg','tmt_A_black.jpg'
+    //     'happy_face_4.jpg','tmt_642_480.jpg'
     //     ];
 
         
+    // images = [ 
+    // './stimulus/tmt_1_agrandada.png','./stimulus/tmt_2.png'
+    // ];
+
     images = [ 
-    './stimulus/tmt_1.png','./stimulus/tmt_2.png'
+    './stimulus/1.jpg','./stimulus/2.jpg','./stimulus/3.jpg','./stimulus/4.jpg','./stimulus/5.jpg','./stimulus/6.jpg','./stimulus/7.jpg','./stimulus/8.jpg','./stimulus/9.jpg','./stimulus/10.jpg',
     ];
+
 
 
     // store all images names in an array of objects {'fileName': images[imag]}
@@ -101,16 +131,28 @@
         // horiz_pix_sec: 30,
         // show_start_time: 500,
         //  motion_start_time: 1000,
+        origin_center: false,
         startX: 'center',// image position
-        startY: 0,
+        startY: 'center',
+        
         
         drawFunc: function(stimulus, canvas, context){ // 'This function enables to move objects horizontally and vertically'
-        setTimeout(function() { // putting a delay time to show the image
-        context.drawImage(stimulus.img, 0, 0, stimulus.img.width, 
-        stimulus.img.height, stimulus.currentX/2, stimulus.currentY/2, 
-        stimulus.img.width , stimulus.img.height);
-        
-    }, delayInMilliseconds);
+        setTimeout(function() // putting a delay time to show the image
+
+                    // { 
+                    // context.drawImage(stimulus.img, 0, 0, stimulus.img.width,  // Puede que aca este cambiando el tamanio del canvas
+                    // stimulus.img.height, document.getElementById('myCanvas').width/2 - 321, document.getElementById('myCanvas').height/2 - 240,
+                    // stimulus.img.width , stimulus.img.height); 
+
+                    { 
+                    context.drawImage(stimulus.img, 0, 0, stimulus.img.width,  // Puede que aca este cambiando el tamanio del canvas
+                    stimulus.img.height, document.getElementById('myCanvas').width/2 - 512, document.getElementById('myCanvas').height/2 - 384,
+                    stimulus.img.width , stimulus.img.height); 
+
+
+                    
+
+        }, delayInMilliseconds);
              
         }
     }
@@ -173,8 +215,9 @@
       item_width: 3 + 3/8,
       item_height: 2 + 1/8,
     //   prompt: "<p>Click and drag the lower right corner of the box until the box is the same size as a credit card held up to the screen.</p>",
-      prompt: "<p>Por favor hacé click y deslizá la esquina inferior derecha de la caja hasta que sea del mismo tamaño que una tarjeta (crédito, débito, SUBE o cualquiera que tenga tamaño estándar).</p>",
-      pixels_per_unit: 642/4
+      prompt: "<p>Por favor hacé click y deslizá la esquina inferior derecha de la caja hasta que sea del mismo tamaño que una tarjeta (crédito, débito, SUBE o cualquiera que tenga tamaño estándar 8.56 x 5.4 cm). <br>Asegurate de poner la tarjeta sobre la pantalla </p>",
+      pixels_per_unit: 642/4, // Tendre que cambiar esto? el original era 642/4
+      button_label: 'Continuar'
     };
 
 
@@ -233,23 +276,31 @@
         randomize_order: false
     }
 
+
+
+    var greetings = {
+            type: "html-keyboard-response",
+            stimulus: '<p style="font-size: 48px;">"El experimento terminó <br><br><br> ¡Muchas gracias por haber participado! <br><br><br>Presioná cualquier tecla para enviar los datos"</p>',
+            // choices: jsPsych.NO_KEYS
+        };
+
     jsPsych.init({
         
-        timeline: [welcome_block,fullScreen,resize_trial, chin, instruction, trial],
+        timeline: [welcome_block,fullScreen, resize_trial, chin, instruction,trial, greetings],
         // timeline: [fullScreen, trial],
+        // timeline: [fullScreen,resize_trial, chin,instruction,trial],
 
         // timeline: [chin],
         preload_images: images, // Image data should be preloaded
-        on_finish: function()
-        {jsPsych.data.displayData ();
-        let json = jsPsych.data.get().json();
-        let filename = 'tmt_data.json'; // downloadJSON(json, filename)
-        downloadJSON(json, filename);
-        
+        on_finish: function(){
+        // jsPsych.data.displayData();
+        let CSV = jsPsych.data.get().csv();
+        let filename = 'tmt_data.csv'; // downloadJSON(json, filename)
+        downloadCSV(CSV, filename);
         },
         
         exclusions: {       //minimum browser size values
-            min_width: 1000,
+            min_width: 500,
             min_height: 500
         }
  

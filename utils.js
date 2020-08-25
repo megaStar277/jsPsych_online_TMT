@@ -1,9 +1,9 @@
-function downloadJSON(json, filename) {
-    var jsonFile;
+function downloadCSV(csv, filename) {
+    var csvFile;
     var downloadLink;
 
     // Retrieve JSON file from experiment
-    jsonFile = new Blob([json], {type: "text/json"});
+    csvFile = new Blob([csv], {type: "text/csv"});
 
     // Download link
     downloadLink = document.createElement("a");
@@ -12,7 +12,7 @@ function downloadJSON(json, filename) {
     downloadLink.download = filename;
 
     // Create a link to the file
-    downloadLink.href = window.URL.createObjectURL(jsonFile);
+    downloadLink.href = window.URL.createObjectURL(csvFile);
 
     // Hide download link
     downloadLink.style.display = 'none';

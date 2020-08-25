@@ -38,20 +38,20 @@ jsPsych.plugins['virtual-chin'] = (function() {
   }
   
   plugin.trial = function(display_element, trial) {
-
-    
+   
     // data saving
     var trial_data = { //I need to modify this in order to save important data
       'viewing_distance_cm': trial.viewing_distance_cm,
       'cardWidth_px': trial.cardWidth_px
     };
 
-
+  
   //Store all the configuration data in variable 'data'
   var data = {"dataType":"configurationData"};
-  data["ballPosition"] = [];
-  data["fullScreenClicked"] = false; // REMOVE
-  data["sliderClicked"] = false;
+      
+      data["ballPosition"] = [];
+
+      data["sliderClicked"] = false;
 
   (function ( distanceSetup, $ ) {  // jQuery short-hand for $(document).ready(function() { ... });
 
@@ -225,6 +225,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
           html += '<br> <img id="card" src="card.png" style="width: 50%"><br><br>';
           html +='<button id="btnBlindSpot" class="btn btn-primary">Click here when you are done!</button></div></div>';
 
+        
           html += '<div id="blind-spot" style="visibility: hidden">';
           html += '<!-- <h2 class="bolded-blue">Task 2: Where’s your blind spot?</h2> -->';
           html += "<h3>Now, let's quickly test how far away you are sitting.</h3>";
@@ -293,7 +294,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
       }
 
       function end_trial(){
-        document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
+        // document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
         // trial_data.viewingDistance=   JSON.stringify(viewingDistance); // best practice for saving in jsPsych. It is a JSON instead of array.
         jsPsych.finishTrial(trial_data); // ends trial and save the data
         display_element.innerHTML = ' '; // clear the display

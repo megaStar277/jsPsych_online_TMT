@@ -95,7 +95,7 @@ jsPsych.plugins["resize"] = (function() {
     var mousedownevent = function(e){
       e.preventDefault();
       dragging = true;
-      origin_x = e.pageX;
+      origin_x = e.pageX; //An integer value, in pixels, indicating the X coordinate at which the mouse pointer was located when the event occurred.
       origin_y = e.pageY;
       cx = parseInt(scale_div.style.width);
       cy = parseInt(scale_div.style.height);
@@ -137,7 +137,7 @@ jsPsych.plugins["resize"] = (function() {
 
       var pixels_unit_screen = final_width_px / trial.item_width;
 
-      scale_factor = (pixels_unit_screen / trial.pixels_per_unit)*1.5;
+      scale_factor = (pixels_unit_screen / trial.pixels_per_unit)*1.4;
       // scale_factor = scale_factor*1.5 // esto da bastante razonable
       document.getElementById("jspsych-content").style.transform = "scale(" + scale_factor + ")";
       // document.getElementsByClassName('jspsych-display-element')[0].style.transform = "scale(" + scale_factor + ")";
