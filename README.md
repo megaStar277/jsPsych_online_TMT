@@ -1,4 +1,5 @@
-#  ![alt text](https://liaa.dc.uba.ar/wp-content/uploads/2018/01/icon.png) jsPsych_online_TMT 
+#  ![alt text](https://liaa.dc.uba.ar/wp-content/uploads/2018/01/icon.png) 
+# jsPsych_online_TMT 
 
 Digital version of the widely used Trail Making Test using [jsPsych](https://github.com/jspsych/jsPsych) library. Also:
 
