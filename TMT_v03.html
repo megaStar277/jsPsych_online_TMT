@@ -55,22 +55,22 @@
     return e.keyCode !== 32;
     };
 
-    // // disable scrolling page
-	// function disableScroll() { 
-	// 		// Get the current page scroll position 
-	// 		scrollTop = 
-	// 		window.pageYOffset || document.documentElement.scrollTop; 
-	// 		scrollLeft = 
-	// 		window.pageXOffset || document.documentElement.scrollLeft, 
+    // disable scrolling page
+	function disableScroll() { 
+			// Get the current page scroll position 
+			scrollTop = 
+			window.pageYOffset || document.documentElement.scrollTop; 
+			scrollLeft = 
+			window.pageXOffset || document.documentElement.scrollLeft, 
 
-	// 			// if any scroll is attempted, 
-	// 			// set this to the previous value 
-	// 			window.onscroll = function() { 
-	// 				window.scrollTo(scrollLeft, scrollTop); 
-	// 			}; 
-	// 	} 
+				// if any scroll is attempted, 
+				// set this to the previous value 
+				window.onscroll = function() { 
+					window.scrollTo(scrollLeft, scrollTop); 
+				}; 
+		} 
         
-    // disableScroll(); 
+    disableScroll(); 
   
         
  
@@ -109,10 +109,45 @@
             type: "survey-html-form",
             preamble: "<p>¡Te damos la bienvenida al experimento!</p>" + "Por favor, completa los siguientes datos: </p> </p> ",
 
-            html: `<p> Nombre <input name="name" type="text" required="" /></p> Edad <input name="age" type="number" required="" /> </p>
-            Género <input list="gender" id="gender-choice" name="gender-choice" required="" />
-            <datalist id="gender"> <option value="MASCULINO"> <option value="FEMENINO"> <option value="OTRO"></datalist> </p>  
-            E-mail <input name="mail" type="email" required="" /> </p>`,
+            html: 
+
+                        `<table>
+                            <tr>
+                            <td align="right">Edad:</td>
+                            <td align="left"><input name="age" type="number" required="" /></td>
+                            </tr>
+
+                            <tr>
+                            <td align="right">Género:</td>
+                            <td align="left"><input list="gender" id="gender-choice" name="gender-choice" required="" /><datalist id="gender"> 
+                            <option value="MASCULINO"> <option value="FEMENINO"> <option value="OTRO"></datalist></td>
+                            </tr>
+
+                            <tr>
+                            <td align="right">Dispositivo de entrada:</td>
+                            <td align="left"><input list="MouseOrPad" id="MouseOrPad-choice" name="MouseOrPad-choice" required="" /><datalist id="MouseOrPad"> 
+                            <option value="Mouse">  <option value="pad de notebook"> <option value="otro"></datalist> </td>
+                            </tr>
+
+                            <tr>
+                            <td align="right">Mano hábil:</td>
+                            <td align="left"><input list="hand" id="hand-choice" name="hand-choice" required="" /><datalist id="hand"> 
+                            <option value="izquierda">  <option value="derecha"> </datalist></td>
+                            </tr>
+
+                            <tr>
+                            <td align="right">¿Dispositivo configurado para mano hábil?</td>
+                            <td align="left"><input list="hand_config" id="hand_config-choice" name="hand_config-choice" required="" /><datalist id="hand_config"> 
+                            <option value="si"> <option value="no"></datalist></td>
+                            </tr>
+
+                            <tr>
+                            <td align="right">E-mail:</td>
+                            <td align="left"><input name="mail" type="email" required="" /></td>
+                            </tr>
+                        </table>`,
+
+
 
             button_label: "Continuar"
         };
@@ -270,21 +305,23 @@
 
     var greetings = {
             type: "html-keyboard-response",
-            stimulus: '<p style="font-size: 48px;">"El experimento terminó <br><br><br> ¡Muchas gracias por haber participado! <br><br><br>Presioná cualquier tecla para enviar los datos"</p>',
+            stimulus: `<p style="font-size: 48px;">"El experimento terminó <br><br><br> 
+                ¡Muchas gracias por haber participado! <br><br><br>Presioná cualquier tecla para enviar los datos"</p>`,
             // choices: jsPsych.NO_KEYS
         };
 
   
     jsPsych.init({
         
-        timeline: [fullScreen,  chin, instruction,trial, greetings],
+        
+        timeline: [welcome_block,fullScreen,resize_trial, chin,instruction,trial,greetings],
+        
+        
         on_interaction_data_update: function(data) {
             // get the main trial data
-            var trial = jsPsych.currentTrial();
+                var trial = jsPsych.currentTrial();
             trial.data.screen_focus = data.event;
         },
-        // timeline: [fullScreen, trial],
-        // timeline: [fullScreen,resize_trial, chin,instruction,trial],
         
         preload_images: images, // Image data should be preloaded
         on_finish: function(){
