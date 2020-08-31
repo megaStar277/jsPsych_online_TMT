@@ -196,36 +196,13 @@ jsPsych.plugins['virtual-chin'] = (function() {
               // display_element.innerHTML = `<p>"Press space bar to start the experiment.</p>`
               display_element.innerHTML = 
                 
-                
-                `<p style='font-size:180%;'>  Este experimento consta de dos tipos de ensayos: <br></p>
-
-                <p style='font-size:130%;'>
-                Los ensayos del primer tipo consisten en una serie de números del 1 al 20 rodeados cada
-                uno por un círculo.<br> Su objetivo será unir con un trazo continuo los puntos en orden creciente,<br> tratando de
-                evitar que los trazos se toquen.<br> Tendrá un límite de tiempo fijo para resolver cada ensayo.<br>
-                PARA COMENZAR CADA ENSAYO DEBERÁ PRESIONAR EL BOTON IZQUIERDO DEL MOUSE (O SU PAD DE NOTEBOOK) <br>Y
-                MANTENERLO PRESIONADO HASTA TERMINARLO.<br> No levante el dedo del botón al menos que
-                hayas terminado el ensayo, o que este haya terminado por superar el tiempo límite.<br>
-                El otro tipo de ensayo consiste en una serie de números del 1 al 10 y letras de la A
-                a la J.<br> Su objetivo será unir con un trazo continuo los puntos de manera alternada (ejemplo 1-A-2-B-3-C,
-                etc).<br><br><br>
-    
-                Su objetivo será realizar la tarea SIN PASAR POR ENCIMA DE SU PROPIO TRAZO y lo más rápido posible.<br>
-                Los ensayos van a aparecer siempre alternadamente.<br><br>
-                
-
-                ¡Suerte y muchas gracias por participar! </p><br>
-                
-                <p style='font-size:200%;'>  Para comenzar por favor presione la barra espaciadora </p>
-                `
-
-
-              
-                // <p style='font-size:130%;'>  Se le mostrarán circulos en la pantalla y deberá unirlos manteniendo presionado
-                // el botón derecho del mouse, <br> al soltarlo se pasará al siguiente ensayo. <br> En los casos en que solo haya
-                // números deberá unirlos en forma ascenndente (1-2-3-...), <br> mientras que en aquellos donde haya números y letras
-                // deberá hacerlo de forma intercalada (1-A-2-B-3-C-...). <br> Por favor intente hacerlo lo más rápido y correctamente posible. </p>
-                // <p style='font-size:200%;'>  Para comenzar por favor presione la barra espaciadora </p>
+                `<p style='font-size:160%;'> Su distancia a la pantalla es de aproximadamente ${dist.toString()} cm </p>
+                <p style='font-size:180%;'> ACÁ VA TODA LA EXPLICACIÓN DEL EXPERIMENTO: <br></p>
+                <p style='font-size:130%;'>  Se le mostrarán circulos en la pantalla y deberá unirlos manteniendo presionado
+                el botón derecho del mouse, <br> al soltarlo se pasará al siguiente ensayo. <br> En los casos en que solo haya
+                números deberá unirlos en forma ascenndente (1-2-3-...), <br> mientras que en aquellos donde haya números y letras
+                deberá hacerlo de forma intercalada (1-A-2-B-3-C-...). <br> Por favor intente hacerlo lo más rápido y correctamente posible. </p>
+                <p style='font-size:200%;'>  Para comenzar por favor presione la barra espaciadora </p>`
 
               return trial_data.viewing_distance_cm;
           }
