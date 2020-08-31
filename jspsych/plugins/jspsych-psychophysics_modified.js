@@ -792,8 +792,8 @@ jsPsych.plugins["psychophysics"] = (function() {
           // "stimulus": trial.stimuli,
           "key_press": response.key,
           "avg_frame_time": elapsedTime/sumOfStep,
-          // "position_x": response.positionX, //borrar?
-          // "position_y": response.positionY, //borrar?
+          "position_x": response.positionX, //borrar?
+          "position_y": response.positionY, //borrar?
           "click_x": response.clickX,
           "click_y": response.clickY,
           "position": pos_tracking
@@ -808,8 +808,8 @@ jsPsych.plugins["psychophysics"] = (function() {
           // "stimulus": trial.stimuli, 
           "key_press": response.key,
           "avg_frame_time": elapsedTime/sumOfStep,
-          // "mousePositionX": response.positionX, // borrar?
-          // "mousePositionY": response.positionY, // borrar?
+          "mousePositionX": response.positionX, // borrar?
+          "mousePositionY": response.positionY, // borrar?
           "position": pos_tracking
         };
 

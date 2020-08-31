@@ -139,7 +139,7 @@ window.jsPsych = (function() {
     }
     opts.display_element.innerHTML = '<div class="jspsych-content-wrapper"><div id="jspsych-content"></div></div>';
     DOM_container = opts.display_element;
-    DOM_target = document.querySelector('#jspsych-content');
+    DOM_target = document.querySelector('# ');
     
 
     // add tabIndex attribute to scope event listeners
