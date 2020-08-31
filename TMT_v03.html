@@ -229,7 +229,7 @@
     //   prompt: "<p>Click and drag the lower right corner of the box until the box is the same size as a credit card held up to the screen.</p>",
       prompt: `<p>Por favor coloque una tarjeta sobre la pantalla (puede ser crédito, débito, SUBE o cualquiera que tenga tamaño 
                 estándar 8.56 x 5.4 cm),<br> luego haga click y deslice la esquina inferior derecha del recuadro azul hasta que 
-                sean del mismo tamaño <br> Asegúrese de poner la tarjeta sobre la pantalla<br><br>
+                sean del mismo tamaño <br><b>Asegúrese de poner la tarjeta sobre la pantalla</b><br><br>
                 Esto nos sirve para estimar el tamaño de su pantalla comparándolo con un objeto de tamaño conocido.</p>`,
       pixels_per_unit: 642/4, // Tendre que cambiar esto? el original es 642/4
       button_label: 'Continuar'
@@ -270,8 +270,8 @@
                     
                 ],
                 response_type: 'mouse',
-                background_color: 'black',
-                // trial_duration: 5000, // after this amount of time, trial
+                background_color: 'gray',
+                trial_duration: 26000, // after this amount of time, trial
                 // canvas_height: 1850,
                 // canvas_width: 2000,
                 // prompt: 'Press any key to proceed.'
