@@ -216,7 +216,7 @@ jsPsych.plugins["psychophysics"] = (function() {
     // agregado por mi (para abajo)
 
      canvas.addEventListener('mousedown', e => {
-       console.log('entro a mousedown');
+      //  console.log('entro a mousedown');
       
         x = e.offsetX;
         y = e.offsetY;
@@ -226,9 +226,9 @@ jsPsych.plugins["psychophysics"] = (function() {
 
 
     canvas.addEventListener( "mousemove", function(e){
-      console.log('entro a mouseMove');
+      // console.log('entro a mouseMove');
       if (isDrawing === true) {
-        console.log('entro al IF de mouseMove');
+        // console.log('entro al IF de mouseMove');
         drawLine(ctx, x, y, e.offsetX, e.offsetY);
         x = e.offsetX;
         y = e.offsetY;
@@ -460,13 +460,13 @@ jsPsych.plugins["psychophysics"] = (function() {
       var x = e.clientX;
       var y = e.clientY;
       var coor = "(" + x + "," + y + ")";
-      console.log(coor);
+      // console.log(coor);
       pos_tracking.push(coor); 	//Save coor in array pos_tracking
       
       };
 
     function drawLine(ctx, x1, y1, x2, y2) {
-      console.log('entre a DRAWLINE');
+      // console.log('entre a DRAWLINE');
 
       ctx.beginPath();
       ctx.strokeStyle = 'green'; // drawLine color
@@ -480,7 +480,7 @@ jsPsych.plugins["psychophysics"] = (function() {
     //Estas funciones las agregue yo (de aca para arriba)
 
     function mouseUpFunc(e){  //ex mouseDownFunc
-      console.log('entro a mouseUp');
+      // console.log('entro a mouseUp');
       let click_time;
       // const pos_tracking = []; 
       

@@ -45,52 +45,54 @@
 <body></body>
 <script>
 
+
+
 // Mouse coordinates (x , y) 
 let x = 0;
-    let y = 0; 
-    isDrawing = false;
+let y = 0; 
+isDrawing = false;
 
-    // To avoid scroll down when press space bar
-    window.onkeydown = function(e) {
-    return e.keyCode !== 32;
-    };
+// To avoid scroll down when press space bar
+window.onkeydown = function(e) {
+return e.keyCode !== 32;
+};
 
-    // disable scrolling page
-	function disableScroll() { 
-			// Get the current page scroll position 
-			scrollTop = 
-			window.pageYOffset || document.documentElement.scrollTop; 
-			scrollLeft = 
-			window.pageXOffset || document.documentElement.scrollLeft, 
+// disable scrolling page
+function disableScroll() { 
+        // Get the current page scroll position 
+        scrollTop = 
+        window.pageYOffset || document.documentElement.scrollTop; 
+        scrollLeft = 
+        window.pageXOffset || document.documentElement.scrollLeft, 
 
-				// if any scroll is attempted, 
-				// set this to the previous value 
-				window.onscroll = function() { 
-					window.scrollTo(scrollLeft, scrollTop); 
-				}; 
-		} 
-        
-    disableScroll();
+            // if any scroll is attempted, 
+            // set this to the previous value 
+            window.onscroll = function() { 
+                window.scrollTo(scrollLeft, scrollTop); 
+            }; 
+    } 
     
-    //Shuffle using Fisher-Yates
-    function shuffle(array) {
-            var currentIndex = array.length, temporaryValue, randomIndex;
+disableScroll();
 
-            // While there remain elements to shuffle...
-            while (0 !== currentIndex) {
+//Shuffle using Fisher-Yates
+function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
 
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
 
-                // And swap it with the current element.
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-            }
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
 
-            return array;
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
         }
+
+        return array;
+    }
   
  
     // presentation time of the fixation cross

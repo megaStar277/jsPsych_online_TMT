@@ -24,6 +24,11 @@ jsPsych.plugins['virtual-chin'] = (function() {
         default: 100,
         description: 'After the scaling factor is applied, this many pixels will equal one unit of measurement.'
       },
+      screen_size_px: {
+        type: jsPsych.plugins.parameterType.INT,
+        default: null,
+        description: 'Screen size'
+      },
       prompt_instructions: {
         type: jsPsych.plugins.parameterType.STRING,
         default: null,
@@ -44,11 +49,30 @@ jsPsych.plugins['virtual-chin'] = (function() {
   
   plugin.trial = function(display_element, trial) {
    
+    // Screen size
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    console.log(w);
+    console.log(h);
+
+    const screen_size_px = []
+    screen_size_px.push(w)
+    screen_size_px.push('x')
+    screen_size_px.push(h)
+
+    console.log(screen_size_px)
+    
     // data saving
     var trial_data = { //I need to modify this in order to save important data
       'viewing_distance_cm': trial.viewing_distance_cm,
-      'cardWidth_px': trial.cardWidth_px
+      'cardWidth_px': trial.cardWidth_px,
+      'screen_size_px': trial.screen_size_px
     };
+
+    trial_data.screen_size_px = screen_size_px
+
+  
 
   
   //Store all the configuration data in variable 'data'
