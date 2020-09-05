@@ -196,25 +196,25 @@ jsPsych.plugins['virtual-chin'] = (function() {
               // display_element.innerHTML = `<p>"Press space bar to start the experiment.</p>`
               display_element.innerHTML = 
                 
-              `<p style='font-size:180%;'>  Este experimento consta de dos tipos de ensayos: <br></p>
-              <p style='font-size:130%;'>
+              `<p style='font-size:180%;color:white'>  Este experimento consta de dos tipos de ensayos: <br></p>
+              <p style='font-size:130%;color:white'>
               Los ensayos del primer tipo consisten en una serie de números del 1 al 20 rodeados cada
               uno por un círculo.<br> Su objetivo será unir con un trazo continuo los puntos en orden creciente,<br> tratando de
               evitar que los trazos se toquen.<br> Tendrá un límite de tiempo fijo para resolver cada ensayo.<br>
               AL COMENZAR CADA ENSAYO VERÁ UNA CRUZ EN EL CENTRO DE LA PANTALLA,<br> CUANDO ESTA DESAPAREZCA Y VEA LOS CIRCULOS
               DEBERÁ PRESIONAR EL BOTON IZQUIERDO DEL MOUSE (O SU PAD DE NOTEBOOK) <br>Y
               MANTENERLO PRESIONADO HASTA TERMINARLO.<br> No levante el dedo del botón al menos que
-              hayas terminado el ensayo, o que este haya terminado por superar el tiempo límite.<br>
+              haya terminado el ensayo, o que este haya terminado por superar el tiempo límite. Utilice una sola mano.<br>
               El otro tipo de ensayo consiste en una serie de números del 1 al 10 y letras de la A
               a la J.<br> Su objetivo será unir con un trazo continuo los puntos de manera alternada (ejemplo 1-A-2-B-3-C,
               etc).<br><br><br>
   
-              Su objetivo será realizar la tarea SIN PASAR POR ENCIMA DE SU PROPIO TRAZO y lo más rápido posible.<br>
+              Su objetivo será realizar la tarea lo mejor y más rápidamente posible.<br>
               Los ensayos van a aparecer siempre alternadamente.<br><br>
               
               ¡Suerte y muchas gracias por participar! </p><br>
               
-              <p style='font-size:200%;'>  Para comenzar por favor presione la barra espaciadora </p>
+              <p style='font-size:200%;color:white'>  Para comenzar por favor presione la barra espaciadora </p>
               `
 
               return trial_data.viewing_distance_cm;

@@ -70,31 +70,124 @@ let x = 0;
 				}; 
 		} 
         
-    disableScroll(); 
+    disableScroll();
+    
+    //Shuffle using Fisher-Yates
+    function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
   
  
     // presentation time of the fixation cross
     var delayInMilliseconds = 1000; // it´s an indirect way to control the momento of presentation of images
 
-    // All the images to present
-    // images = [ 
-    //     'happy_face_4.jpg','tmt_642_480.jpg'
+    //For loading all images, but we'll present half 
+    // images = [
+    //     './stimulus/1.jpg', './stimulus/2.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
+    //     './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
+    //     './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
+    //     './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg',
+    //     './stimulus/tmt_A_black.jpg', './stimulus/tmt_B_black.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
+    //     './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
+    //     './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
+    //     './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg'
     //     ];
 
     images = [
-        './stimulus/1.jpg', './stimulus/2.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
-        './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
-        './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
-        './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg',
-        './stimulus/tmt_A_black.jpg', './stimulus/tmt_B_black.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
-        './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
-        './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
-        './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg'
+    './stimulus/1.jpg', './stimulus/2.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
+    './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
+    './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
+    './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg',
+    './stimulus/1_bis.jpg', './stimulus/2_bis.jpg', './stimulus/3_bis.jpg', './stimulus/4_bis.jpg', './stimulus/5_bis.jpg',
+    './stimulus/6_bis.jpg', './stimulus/7_bis.jpg', './stimulus/8_bis.jpg', './stimulus/9_bis.jpg', './stimulus/10_bis.jpg',
+    './stimulus/11_bis.jpg', './stimulus/12_bis.jpg', './stimulus/13_bis.jpg', './stimulus/14_bis.jpg', './stimulus/15_bis.jpg',
+    './stimulus/16_bis.jpg', './stimulus/17_bis.jpg', './stimulus/18_bis.jpg', './stimulus/19_bis.jpg', './stimulus/20_bis.jpg'
         ];
     
     // Two conditions with 20 stimulus each 
-    const images_condition_1 = images.slice(0,20)
-    const images_condition_2 = images.slice(20,40)
+    const images_condition_1 = images.slice(0,20);
+    const images_condition_2 = images.slice(20,40);
+
+    //Trials A and B separation inside each condition
+    const images_condition_1_A = [];
+    const images_condition_1_B = [];
+
+    const images_condition_2_A = [];
+    const images_condition_2_B = [];
+
+    //We need a for lop in order to divide images_condition_x in A type and B type trials.
+
+    for (idx = 0; idx < images_condition_1.length; idx++) {
+        if (idx % 2 == 0){
+            images_condition_1_A.push(images_condition_1[idx])
+        }else {
+            images_condition_1_B.push(images_condition_1[idx])
+        }
+    }
+
+    for (idx = 0; idx < images_condition_2.length; idx++) {
+        if (idx % 2 == 0){
+            images_condition_2_A.push(images_condition_2[idx])
+        }else {
+            images_condition_2_B.push(images_condition_2[idx])
+        }
+    }
+
+    //Shuffle every sub group of images
+    images_condition_1_A_shuffled = shuffle(images_condition_1_A);
+    images_condition_1_B_shuffled = shuffle(images_condition_1_B);
+
+    images_condition_2_A_shuffled = shuffle(images_condition_2_A);
+    images_condition_2_B_shuffled = shuffle(images_condition_2_B);
+
+    //RE-DO the big initial array, randomized but with intercalated A/B trials
+    let final_images = []; //I can concatenate  two sets of conditions at end
+
+    let final_images_condition_1 = [];
+    let final_images_condition_2 = [];
+
+    // for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
+    //     if (idx % 2 == 0){
+    //         final_images_condition_1.push(images_condition_1_A_shuffled[idx])
+    //     }else {
+    //         final_images_condition_1.push(images_condition_1_B_shuffled[idx])
+    //     }
+    // }
+
+    // for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
+    //     if (idx % 2 == 0){
+    //         final_images_condition_2.push(images_condition_2_A_shuffled[idx])
+    //     }else {
+    //         final_images_condition_2.push(images_condition_2_B_shuffled[idx])
+    //     }
+    // }
+    for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
+        final_images_condition_1.push(images_condition_1_A_shuffled[idx])
+        final_images_condition_1.push(images_condition_1_B_shuffled[idx])
+    }    
+    
+    for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
+        final_images_condition_2.push(images_condition_2_A_shuffled[idx])
+        final_images_condition_2.push(images_condition_2_B_shuffled[idx])
+    }
+
+    // final_images = final_images_condition_1.concat(final_images_condition_2);
+
 
     //Random number between 0 and 1 used to choose the set of stimulus btween the 2 groups randomly
     const random_number = Math.random()
@@ -107,16 +200,16 @@ let x = 0;
     //select randomly between two set of images
     if (random_number > 0.5){
         console.log('mayor que 0.5')
-        for (imag in images_condition_1){
+        for (imag in final_images_condition_1){
             // imag = 'stimuli/'+imag;
-            timelineVariables.push(container['prop'+ imag ]   = { 'fileName': images_condition_1[imag]}
+            timelineVariables.push(container['prop'+ imag ]   = { 'fileName': final_images_condition_1[imag]}
             ); 
     }
     } else {
-        for (imag in images_condition_2){
+        for (imag in final_images_condition_2){
             console.log('menor que 0.5')
             // imag = 'stimuli/'+imag;
-            timelineVariables.push(container['prop'+ imag ]   = { 'fileName': images_condition_2[imag]}
+            timelineVariables.push(container['prop'+ imag ]   = { 'fileName': final_images_condition_2[imag]}
             ); 
         }
     }
