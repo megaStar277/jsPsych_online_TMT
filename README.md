@@ -1,4 +1,4 @@
-##  ![alt text](https://liaa.dc.uba.ar/wp-content/uploads/2018/01/icon.png) jsPsych_online_TMT 
+#  ![icon](https://liaa.dc.uba.ar/wp-content/uploads/2018/01/icon.png) jsPsych_online_TMT 
 
 Digital version of the widely used Trail Making Test using [jsPsych](https://github.com/jspsych/jsPsych) library. Also:
 
@@ -12,3 +12,15 @@ The [Trail Making Test](https://en.wikipedia.org/wiki/Trail_Making_Test) is a ne
  <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Trails.jpg/290px-Trails.jpg"/>
 </p>
+
+Content
+----------
+* TMT.html - Main script
+* jsPsych library v6.1.0
+* analysis - Matlab script for data analysis
+* stim_generator - Matlab scripts for TMT stimuli generation. The stimuli are images with the TMT filled circles structure.
+
+Credits
+-------
+
+[Applied Artificial Intelligence Laboratory](https://liaa.dc.uba.ar/), Departamento de Computación, Facultad de Ciencias Exactas y Naturales, Universidad de Buenos Aires and the Instituto de Investigación en Ciencias de la Computación, CONICET-UBA.
