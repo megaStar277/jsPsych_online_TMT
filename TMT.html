@@ -99,31 +99,17 @@ function shuffle(array) {
     var delayInMilliseconds = 1000; // it´s an indirect way to control the momento of presentation of images
 
     //For loading all images, but we'll present half 
-    // images = [
-    //     './stimulus/1.jpg', './stimulus/2.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
-    //     './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
-    //     './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
-    //     './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg',
-    //     './stimulus/tmt_A_black.jpg', './stimulus/tmt_B_black.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
-    //     './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
-    //     './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
-    //     './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg'
-    //     ];
-
-    images = [
-    './stimulus/test.jpg', './stimulus/2.jpg', './stimulus/3.jpg', './stimulus/4.jpg', './stimulus/5.jpg',
-    './stimulus/6.jpg', './stimulus/7.jpg', './stimulus/8.jpg', './stimulus/9.jpg', './stimulus/10.jpg',
-    './stimulus/11.jpg', './stimulus/12.jpg', './stimulus/13.jpg', './stimulus/14.jpg', './stimulus/15.jpg',
-    './stimulus/16.jpg', './stimulus/17.jpg', './stimulus/18.jpg', './stimulus/19.jpg', './stimulus/20.jpg',
-    './stimulus/1_bis.jpg', './stimulus/2_bis.jpg', './stimulus/3_bis.jpg', './stimulus/4_bis.jpg', './stimulus/5_bis.jpg',
-    './stimulus/6_bis.jpg', './stimulus/7_bis.jpg', './stimulus/8_bis.jpg', './stimulus/9_bis.jpg', './stimulus/10_bis.jpg',
-    './stimulus/11_bis.jpg', './stimulus/12_bis.jpg', './stimulus/13_bis.jpg', './stimulus/14_bis.jpg', './stimulus/15_bis.jpg',
-    './stimulus/16_bis.jpg', './stimulus/17_bis.jpg', './stimulus/18_bis.jpg', './stimulus/19_bis.jpg', './stimulus/20_bis.jpg'
-        ];
-
-    // images = ['./stimulus/test.jpg','./stimulus/2.jpg'];
     
-    // Two conditions with 20 stimulus each 
+    images = ["./stimuli/stim_1_A.jpg", "./stimuli/stim_2_B.jpg", "./stimuli/stim_3_A.jpg", "./stimuli/stim_4_B.jpg", "./stimuli/stim_5_A.jpg", 
+              "./stimuli/stim_6_B.jpg", "./stimuli/stim_7_A.jpg", "./stimuli/stim_8_B.jpg", "./stimuli/stim_9_A.jpg", "./stimuli/stim_10_B.jpg", 
+              "./stimuli/stim_11_A.jpg", "./stimuli/stim_12_B.jpg", "./stimuli/stim_13_A.jpg", "./stimuli/stim_14_B.jpg", "./stimuli/stim_15_A.jpg",
+              "./stimuli/stim_16_B.jpg", "./stimuli/stim_17_A.jpg", "./stimuli/stim_18_B.jpg", "./stimuli/stim_19_A.jpg", "./stimuli/stim_20_B.jpg",
+              "./stimuli/stim_2_A.jpg", "./stimuli/stim_1_B.jpg", "./stimuli/stim_4_A.jpg", "./stimuli/stim_3_B.jpg", "./stimuli/stim_6_A.jpg", 
+              "./stimuli/stim_5_B.jpg", "./stimuli/stim_8_A.jpg", "./stimuli/stim_7_B.jpg", "./stimuli/stim_10_A.jpg","./stimuli/stim_9_B.jpg",
+              "./stimuli/stim_12_A.jpg","./stimuli/stim_11_B.jpg","./stimuli/stim_14_A.jpg","./stimuli/stim_13_B.jpg","./stimuli/stim_16_A.jpg",
+              "./stimuli/stim_15_B.jpg", "./stimuli/stim_18_A.jpg", "./stimuli/stim_17_B.jpg","./stimuli/stim_20_A.jpg", "./stimuli/stim_19_B.jpg"]
+
+    // Two conditions with 20 stimuli each 
     const images_condition_1 = images.slice(0,20);
     const images_condition_2 = images.slice(20,40);
 
@@ -159,27 +145,12 @@ function shuffle(array) {
     images_condition_2_A_shuffled = shuffle(images_condition_2_A);
     images_condition_2_B_shuffled = shuffle(images_condition_2_B);
 
-    //RE-DO the big initial array, randomized but with intercalated A/B trials
+    //RE-DO 2 arrays, randomized but with intercalated A/B trials
     let final_images = []; //I can concatenate  two sets of conditions at end
 
     let final_images_condition_1 = [];
     let final_images_condition_2 = [];
 
-    // for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
-    //     if (idx % 2 == 0){
-    //         final_images_condition_1.push(images_condition_1_A_shuffled[idx])
-    //     }else {
-    //         final_images_condition_1.push(images_condition_1_B_shuffled[idx])
-    //     }
-    // }
-
-    // for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
-    //     if (idx % 2 == 0){
-    //         final_images_condition_2.push(images_condition_2_A_shuffled[idx])
-    //     }else {
-    //         final_images_condition_2.push(images_condition_2_B_shuffled[idx])
-    //     }
-    // }
     for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
         final_images_condition_1.push(images_condition_1_A_shuffled[idx])
         final_images_condition_1.push(images_condition_1_B_shuffled[idx])
@@ -193,7 +164,7 @@ function shuffle(array) {
     // final_images = final_images_condition_1.concat(final_images_condition_2);
 
 
-    //Random number between 0 and 1 used to choose the set of stimulus btween the 2 groups randomly
+    // //Random number between 0 and 1 used to choose the set of stimuli btween the 2 groups randomly
     const random_number = Math.random()
     console.log(random_number)
 
@@ -217,13 +188,7 @@ function shuffle(array) {
             ); 
         }
     }
-    
-       
-    // for (imag in images){
-    //     // imag = 'stimuli/'+imag;
-    //     timelineVariables.push(container['prop'+ imag ]   = { 'fileName': images[imag]}
-    //     ); 
-    // } 
+
 
     // The blocks of the experiment 
 
@@ -273,11 +238,6 @@ function shuffle(array) {
     var showed_image = {
         obj_type: 'image',
         file: jsPsych.timelineVariable('fileName'),     
-        //  show_start_time: 500,
-        // horiz_pix_sec: 30,
-        // show_start_time: 500,
-        //  motion_start_time: 1000,
-        // origin_center: false,
         startX: 'center',// image position
         startY: 'center',
         
@@ -287,7 +247,7 @@ function shuffle(array) {
 
             {
                 context.drawImage(stimulus.img, 0, 0, stimulus.img.width,  // Puede que aca este cambiando el tamanio del canvas
-                    stimulus.img.height, document.getElementById('myCanvas').width / 2 - 512,
+                    stimulus.img.height, document.getElementById('myCanvas').width / 2 - 512, // This is a hard-coded way to put image in the center
                     document.getElementById('myCanvas').height / 2 - 384,
                     stimulus.img.width, stimulus.img.height);
 
@@ -406,19 +366,10 @@ function shuffle(array) {
         ],
         timeline_variables: 
             
-            timelineVariables
-
-            // timelineVariables remmplace the previous format:
-
-            // {fileName: images[0]},
-            // {fileName: images[1]},
-            // {fileName: images[2]}
-        ,
-        repetitions: 1,
-        randomize_order: false
+            timelineVariables,
+            repetitions: 1,
+            randomize_order: false //We randomize at top of script 'manually'
     }
-
-
 
     var greetings = {
             type: "html-keyboard-response",
@@ -438,16 +389,19 @@ function shuffle(array) {
             trial.data.screen_focus = data.event;
         },
         
-        preload_images: images, // Image data should be preloaded
+        // Image data should be preloaded
+        preload_images: images, 
         on_finish: function(){
       
         jsPsych.data.displayData();
         let CSV = jsPsych.data.get().csv();
-        let filename = 'tmt_data.csv'; // downloadJSON(json, filename)
+         // downloadJSON(json, filename)
+        let filename = 'tmt_data.csv';
         downloadCSV(CSV, filename);
         },
         
-        exclusions: {       //minimum browser size values
+        //minimum browser size values
+        exclusions: {       
             min_width: 800,
             min_height: 600
         }
