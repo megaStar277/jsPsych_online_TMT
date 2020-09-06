@@ -15,9 +15,9 @@ The [Trail Making Test](https://en.wikipedia.org/wiki/Trail_Making_Test) is a ne
 
 Content
 ----------
-* **TMT.html** - Main script
+* **TMT.html** - Main script with jsPsych experiment structure
 * **analysis** - Matlab script for data analysis
-* **stim_generator** - Matlab scripts for TMT stimuli generation. The stimuli are images with the TMT filled circles structure.
+* **stim_generator** - Matlab scripts for TMT stimuli generation. The stimuli are images with the TMT circles structure.
 
 Credits
 -------
