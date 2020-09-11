@@ -17,7 +17,7 @@ Content
 ----------
 * **TMT.html** - Main script with jsPsych experiment structure
 * **analysis** - Matlab script for data analysis
-* **stim_generator** - Matlab scripts for TMT stimuli generation. The stimuli are images with the TMT circles structure.
+* **stim_generator** - Matlab scripts for TMT stimuli generation. The stimuli are images with the TMT structure.
 
 Credits
 -------
