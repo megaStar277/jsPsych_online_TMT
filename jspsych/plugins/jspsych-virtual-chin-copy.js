@@ -53,15 +53,15 @@ jsPsych.plugins['virtual-chin'] = (function() {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
-    console.log(w);
-    console.log(h);
+    // console.log(w);
+    // console.log(h);
 
     const screen_size_px = []
     screen_size_px.push(w)
     screen_size_px.push('x')
     screen_size_px.push(h)
 
-    console.log(screen_size_px)
+    // console.log(screen_size_px)
     
     // data saving
     var trial_data = { //I need to modify this in order to save important data
@@ -101,7 +101,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
   function getCardWidth() {
       var cardWidthPx = $('#card').width();
       data["cardWidthPx"] = distanceSetup.round(cardWidthPx,2);
-      console.log(cardWidthPx)
+      // console.log(cardWidthPx)
 
       trial_data.cardWidth_px = cardWidthPx // add to trial_data
 
@@ -184,7 +184,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
           data["avgBallPos"] = distanceSetup.round(sum/ballPosLen, 2);
           var ball_sqr_distance = (data["squarePosition"]-data["avgBallPos"])/data["px2mm"];
           var viewDistance = ball_sqr_distance/Math.radians(angle)
-          console.log(Math.radians(angle))
+          // console.log(Math.radians(angle))
           data["viewDistance_mm"] = distanceSetup.round(viewDistance, 2);
 
           //counter and stop
@@ -209,7 +209,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
               //Estimated viewing distance in centimeters
               trial_data.viewing_distance_cm = (data["viewDistance_mm"]/10); // add to trial_data
 
-              console.log(data["viewDistance_mm"]/10);
+              // console.log(data["viewDistance_mm"]/10);
 
               dist = Math.round(data["viewDistance_mm"]/10)
 
@@ -228,7 +228,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
               AL COMENZAR CADA ENSAYO VERÁ UNA CRUZ EN EL CENTRO DE LA PANTALLA,<br> CUANDO ESTA DESAPAREZCA Y VEA LOS CIRCULOS
               DEBERÁ PRESIONAR EL BOTON IZQUIERDO DEL MOUSE (O SU PAD DE NOTEBOOK) <br>Y
               MANTENERLO PRESIONADO HASTA TERMINARLO.<br> No levante el dedo del botón al menos que
-              haya terminado el ensayo, o que este haya terminado por superar el tiempo límite. Utilice una sola mano.<br>
+              haya terminado el ensayo, o que este haya terminado por superar el tiempo límite.<br>
               El otro tipo de ensayo consiste en una serie de números del 1 al 10 y letras de la A
               a la J.<br> Su objetivo será unir con un trazo continuo los puntos de manera alternada (ejemplo 1-A-2-B-3-C,
               etc).<br><br><br>
@@ -279,7 +279,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
           
           html += '<h3>Instrucciones</h3>';
           html += '<p>1. Coloque su dedo índice en la <b>barra espaciadora</b> </p>';
-          html += '<p>2. Cierre su ojo derecho. <em> (Tip:Quizá le resulte más fácil tapándolo con su mano!)</em></p>';
+          html += '<p>2. Cierre su ojo derecho. <em> (Tip: Quizá le resulte más fácil tapándolo con su mano!)</em></p>';
           html += '<p>3. Usando su ojo izquierdo, haga foco en el cuadrado negro.</p>';
           html += '<p>4. Presione el botón de abajo para iniciar la animación de la pelotita roja. Esa <b style="color: red">pelotita roja</b> va a desaparecer de su vista en algún momento. Ni bien la deje de ver (siempre enfocando en el cuadrado negro) presione una vez la barra lo más rápidamente posible.</p><br>';
           html += '<p>Por favor repita el proceso <b>cinco</b> veces. Mantenga su ojo derecho cerrado y presione la barra espaciadora lo más rápidamente posible!</p><br>';
@@ -291,12 +291,12 @@ jsPsych.plugins['virtual-chin'] = (function() {
 
       display_element.innerHTML = html; //
       document.getElementById("btnBlindSpot").addEventListener('click', function() {
-        console.log('presionaste el boton 1');
+        // console.log('presionaste el boton 1');
         configureBlindSpot();
       });
 
       document.getElementById("start").addEventListener('click', function() {
-        console.log('presionaste el boton 2');
+        // console.log('presionaste el boton 2');
         animateBall(); 
       });
 

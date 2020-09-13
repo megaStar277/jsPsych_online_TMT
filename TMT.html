@@ -100,14 +100,14 @@ function shuffle(array) {
 
     //For loading all images, but we'll present half 
     
-    images = ["./stimuli/stim_1_A.jpg", "./stimuli/stim_2_B.jpg", "./stimuli/stim_3_A.jpg", "./stimuli/stim_4_B.jpg", "./stimuli/stim_5_A.jpg", 
-              "./stimuli/stim_6_B.jpg", "./stimuli/stim_7_A.jpg", "./stimuli/stim_8_B.jpg", "./stimuli/stim_9_A.jpg", "./stimuli/stim_10_B.jpg", 
-              "./stimuli/stim_11_A.jpg", "./stimuli/stim_12_B.jpg", "./stimuli/stim_13_A.jpg", "./stimuli/stim_14_B.jpg", "./stimuli/stim_15_A.jpg",
-              "./stimuli/stim_16_B.jpg", "./stimuli/stim_17_A.jpg", "./stimuli/stim_18_B.jpg", "./stimuli/stim_19_A.jpg", "./stimuli/stim_20_B.jpg",
-              "./stimuli/stim_2_A.jpg", "./stimuli/stim_1_B.jpg", "./stimuli/stim_4_A.jpg", "./stimuli/stim_3_B.jpg", "./stimuli/stim_6_A.jpg", 
-              "./stimuli/stim_5_B.jpg", "./stimuli/stim_8_A.jpg", "./stimuli/stim_7_B.jpg", "./stimuli/stim_10_A.jpg","./stimuli/stim_9_B.jpg",
-              "./stimuli/stim_12_A.jpg","./stimuli/stim_11_B.jpg","./stimuli/stim_14_A.jpg","./stimuli/stim_13_B.jpg","./stimuli/stim_16_A.jpg",
-              "./stimuli/stim_15_B.jpg", "./stimuli/stim_18_A.jpg", "./stimuli/stim_17_B.jpg","./stimuli/stim_20_A.jpg", "./stimuli/stim_19_B.jpg"]
+    images = ["./stimuli/cond1/stim_1_A.jpg", "./stimuli/cond1/stim_2_B.jpg", "./stimuli/cond1/stim_3_A.jpg", "./stimuli/cond1/stim_4_B.jpg", "./stimuli/cond1/stim_5_A.jpg", 
+              "./stimuli/cond1/stim_6_B.jpg", "./stimuli/cond1/stim_7_A.jpg", "./stimuli/cond1/stim_8_B.jpg", "./stimuli/cond1/stim_9_A.jpg", "./stimuli/cond1/stim_10_B.jpg", 
+              "./stimuli/cond1/stim_11_A.jpg", "./stimuli/cond1/stim_12_B.jpg", "./stimuli/cond1/stim_13_A.jpg", "./stimuli/cond1/stim_14_B.jpg", "./stimuli/cond1/stim_15_A.jpg",
+              "./stimuli/cond1/stim_16_B.jpg", "./stimuli/cond1/stim_17_A.jpg", "./stimuli/cond1/stim_18_B.jpg", "./stimuli/cond1/stim_19_A.jpg", "./stimuli/cond1/stim_20_B.jpg",
+              "./stimuli/cond2/stim_2_A.jpg", "./stimuli/cond2/stim_1_B.jpg", "./stimuli/cond2/stim_4_A.jpg", "./stimuli/cond2/stim_3_B.jpg", "./stimuli/cond2/stim_6_A.jpg", 
+              "./stimuli/cond2/stim_5_B.jpg", "./stimuli/cond2/stim_8_A.jpg", "./stimuli/cond2/stim_7_B.jpg", "./stimuli/cond2/stim_10_A.jpg","./stimuli/cond2/stim_9_B.jpg",
+              "./stimuli/cond2/stim_12_A.jpg","./stimuli/cond2/stim_11_B.jpg","./stimuli/cond2/stim_14_A.jpg","./stimuli/cond2/stim_13_B.jpg","./stimuli/cond2/stim_16_A.jpg",
+              "./stimuli/cond2/stim_15_B.jpg", "./stimuli/cond2/stim_18_A.jpg", "./stimuli/cond2/stim_17_B.jpg","./stimuli/cond2/stim_20_A.jpg", "./stimuli/cond2/stim_19_B.jpg"]
 
     // Two conditions with 20 stimuli each 
     const images_condition_1 = images.slice(0,20);
@@ -166,7 +166,7 @@ function shuffle(array) {
 
     // //Random number between 0 and 1 used to choose the set of stimuli btween the 2 groups randomly
     const random_number = Math.random()
-    console.log(random_number)
+    // console.log(random_number)
 
     // store all images names in an array of objects {'fileName': images[imag]}
     let container = { }; // main object
@@ -174,7 +174,7 @@ function shuffle(array) {
 
     //select randomly between two set of images
     if (random_number > 0.5){
-        console.log('mayor que 0.5')
+        // console.log('mayor que 0.5')
         for (imag in final_images_condition_1){
             // imag = 'stimuli/'+imag;
             timelineVariables.push(container['prop'+ imag ]   = { 'fileName': final_images_condition_1[imag]}
@@ -182,7 +182,7 @@ function shuffle(array) {
     }
     } else {
         for (imag in final_images_condition_2){
-            console.log('menor que 0.5')
+            // console.log('menor que 0.5')
             // imag = 'stimuli/'+imag;
             timelineVariables.push(container['prop'+ imag ]   = { 'fileName': final_images_condition_2[imag]}
             ); 
@@ -263,7 +263,7 @@ function shuffle(array) {
 
         drawFunc: function(stimulus, canvas, context){
             canvas.addEventListener('mousedown', e => {
-            console.log('entro a mousedown');
+            // console.log('entro a mousedown');
       
         x = e.offsetX;
         y = e.offsetY;
