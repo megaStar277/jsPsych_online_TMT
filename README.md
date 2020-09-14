@@ -17,6 +17,8 @@ Content
 ----------
 * **TMT.html** - Main script with jsPsych experiment structure
 * **analysis** - Matlab script for data analysis
+  * [sigstar](https://github.com/raacampbell/sigstar) for lines and asterisks indicating significant differences between two groups 
+  * [GetGoogleSpreadSheet](https://www.mathworks.com/matlabcentral/fileexchange/39915-getgooglespreadsheet)
 * **stim_generator** - Matlab scripts for TMT stimuli generation. The stimuli are images with the TMT structure.
 
 Credits
