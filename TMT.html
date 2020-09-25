@@ -36,7 +36,8 @@
     <script src="jspsych/plugins/jspsych-survey-html-form.js"></script>
     <script src= 'jspsych/plugins/jspsych-virtual-chin-copy.js'></script>
     <script src="jspsych/plugins/jspsych-resize.js"></script>
-    <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>   
+    <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych/plugins/jspsych-instructions.js"></script>   
     
     <!-- For local saving of the data in CSV format -->
     <script src="utils.js"></script> 
@@ -306,7 +307,42 @@ function shuffle(array) {
     
     var chin = {    
         type: 'virtual-chin'
-    };
+    }
+
+    var explanation = {
+    type: 'instructions',
+    pages: [
+            ` <p style='font-size:180%;color:black'>  Este experimento consta de dos tipos de ensayos y tendrá un límite de tiempo fijo para resolver cada uno.<br> <br></p>
+              
+        
+              ` ,
+              `<p style='font-size:130%;color:black'>
+              Los ensayos del primer tipo consisten en una serie de números del 1 al 20 rodeados cada
+              uno por un círculo.<br> Su objetivo será unir con un trazo continuo los puntos en orden creciente,<br> tratando de
+              evitar que los trazos se toquen.<br> <br> 
+              AL COMENZAR CADA ENSAYO VERÁ UNA CRUZ EN EL CENTRO DE LA PANTALLA,<br> CUANDO ESTA DESAPAREZCA Y VEA LOS CIRCULOS
+              DEBERÁ PRESIONAR EL BOTON IZQUIERDO DEL MOUSE (O SU PAD DE NOTEBOOK) <br>Y
+              MANTENERLO PRESIONADO HASTA TERMINARLO.<br> No levante el dedo del botón al menos que
+              haya terminado el ensayo, o que este haya terminado por superar el tiempo límite.</p>`,
+
+              `<p style='font-size:130%;color:black'>
+                El otro tipo de ensayo consiste en una serie de números del 1 al 10 y letras de la A
+              a la J.<br> Su objetivo será unir con un trazo continuo los puntos de manera alternada (ejemplo 1-A-2-B-3-C,
+              etc).<br><br><br>
+  
+              Su objetivo será realizar la tarea lo mejor y más rápidamente posible.<br><br>
+              Los ensayos van a aparecer siempre alternadamente.<br><br>
+
+              Presione Siguiente para comenzar el experimento.<br>
+              
+              ¡Suerte y muchas gracias por participar!</p>`
+            ],
+    show_clickable_nav: true,
+    show_page_number: true,
+    button_label_previous: 'Anterior',
+    button_label_next: 'Siguiente'
+  }
+
 
     var resize_trial = {
       type: 'resize',
@@ -322,19 +358,21 @@ function shuffle(array) {
     };
 
 
-    var text_object = {
-      obj_type: 'text',
-      content: 'Se le mostrara una pantalla con circulos.<br> Tendra que unirlos en orden ascendente, por favor presione la barra espaciadora para continuar.',
-      font: "24px 'Arial'",
-      text_color: 'white',
-      text_space: 100,
-    }
+    // var text_object = {
+    //   obj_type: 'text',
+    //   content: 'Se le mostrara una pantalla con circulos.<br> Tendra que unirlos en orden ascendente, por favor presione la barra espaciadora para continuar.',
+    //   font: "24px 'Arial'",
+    //   text_color: 'white',
+    //   text_space: 100,
+    // }
 
-    var instruction = {
-        type: 'psychophysics',
-        stimuli: [text_object],
-        choices: ['space'],
-    }
+    // var instruction = {
+    //     type: 'psychophysics',
+    //     stimuli: [text_object],
+    //     choices: ['enter'],
+    // }
+
+
 
     var trial = {
         timeline: [
@@ -380,8 +418,10 @@ function shuffle(array) {
   
     jsPsych.init({
         
-        // timeline: [welcome_block,fullScreen,resize_trial, chin,instruction,trial,greetings],
-        timeline: [fullScreen,resize_trial, chin,instruction,trial,greetings],
+        // timeline: [welcome_block,fullScreen,resize_trial, chin,instrucciones_posta,trial,greetings],
+        // timeline: [fullScreen, resize_trial, chin, instruction, trial, greetings],
+        // timeline: [chin, welcome_block, greetings],
+        timeline: [chin, explanation, trial],
         
         on_interaction_data_update: function(data) {
             // get the main trial data
@@ -405,7 +445,6 @@ function shuffle(array) {
             min_width: 800,
             min_height: 600
         }
- 
         
         });
 </script>

@@ -172,6 +172,9 @@ jsPsych.plugins["psychophysics"] = (function() {
         
           plugin.trial = function(display_element, trial) {
 
+          //Change background color
+          document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
+
 
           const elm_jspsych_content = document.getElementById('jspsych-content');
           const style_jspsych_content = window.getComputedStyle(elm_jspsych_content); // stock

@@ -49,7 +49,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
   
   plugin.trial = function(display_element, trial) {
    
-    // Screen size
+    // Get screen size
     var w = window.innerWidth;
     var h = window.innerHeight;
 
@@ -71,8 +71,6 @@ jsPsych.plugins['virtual-chin'] = (function() {
     };
 
     trial_data.screen_size_px = screen_size_px
-
-  
 
   
   //Store all the configuration data in variable 'data'
@@ -97,7 +95,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
 
   }( window.distanceSetup = window.distanceSetup || {}, jQuery));
 
-
+  
   function getCardWidth() {
       var cardWidthPx = $('#card').width();
       data["cardWidthPx"] = distanceSetup.round(cardWidthPx,2);
@@ -118,7 +116,6 @@ jsPsych.plugins['virtual-chin'] = (function() {
       $(document).on('keydown', recordPosition);
 
   };
-
 
   $( function() {
       $( "#slider" ).slider({value:"50"});
@@ -177,6 +174,7 @@ jsPsych.plugins['virtual-chin'] = (function() {
   function recordPosition(event, angle=13.5) {
       // angle: define horizontal blind spot entry point position in degrees.
       if (event.keyCode == '32') { //Press "Space"
+          console.log('entro de nuevo a recordPosition')
 
           data["ballPosition"].push(distanceSetup.round((ball.cx() + moveX),2));
           var sum = data["ballPosition"].reduce((a, b) => a + b, 0);
@@ -192,18 +190,17 @@ jsPsych.plugins['virtual-chin'] = (function() {
           counter = counter - 1;
           $('#click').text(Math.max(counter, 0));
           if (counter <= 0) {
-
               ball.stop();
 
               // Disable space key
               $('html').bind('keydown', function(e)
               {
-                if (e.keyCode == 32) {return false;} //32 is spacebar
+                if (e.keyCode == 32)  {return false;} //32 is spacebar I CHANGE THAT
               });
 
-              // // Display data
-              // $('#info').css("visibility", "visible");
-              // $('#info-h').append(data["viewDistance_mm"]/10)
+              // Display data
+              $('#info').css("visibility", "visible");
+              $('#info-h').append(data["viewDistance_mm"]/10)
 
 
               //Estimated viewing distance in centimeters
@@ -214,33 +211,9 @@ jsPsych.plugins['virtual-chin'] = (function() {
               dist = Math.round(data["viewDistance_mm"]/10)
 
               // The trial must end 
-              end_trial();
-
-              // You can then DO SOMETHING HERE TO PROCEED TO YOUR NEXT STEPS OF THE EXPERIMENT. For example, add a button to go to the next page.
-              // display_element.innerHTML = `<p>"Press space bar to start the experiment.</p>`
-              display_element.innerHTML = 
-                
-              `<p style='font-size:180%;color:white'>  Este experimento consta de dos tipos de ensayos: <br></p>
-              <p style='font-size:130%;color:white'>
-              Los ensayos del primer tipo consisten en una serie de números del 1 al 20 rodeados cada
-              uno por un círculo.<br> Su objetivo será unir con un trazo continuo los puntos en orden creciente,<br> tratando de
-              evitar que los trazos se toquen.<br> Tendrá un límite de tiempo fijo para resolver cada ensayo.<br>
-              AL COMENZAR CADA ENSAYO VERÁ UNA CRUZ EN EL CENTRO DE LA PANTALLA,<br> CUANDO ESTA DESAPAREZCA Y VEA LOS CIRCULOS
-              DEBERÁ PRESIONAR EL BOTON IZQUIERDO DEL MOUSE (O SU PAD DE NOTEBOOK) <br>Y
-              MANTENERLO PRESIONADO HASTA TERMINARLO.<br> No levante el dedo del botón al menos que
-              haya terminado el ensayo, o que este haya terminado por superar el tiempo límite.<br>
-              El otro tipo de ensayo consiste en una serie de números del 1 al 10 y letras de la A
-              a la J.<br> Su objetivo será unir con un trazo continuo los puntos de manera alternada (ejemplo 1-A-2-B-3-C,
-              etc).<br><br><br>
-  
-              Su objetivo será realizar la tarea lo mejor y más rápidamente posible.<br>
-              Los ensayos van a aparecer siempre alternadamente.<br><br>
+              end_trial()
+             
               
-              ¡Suerte y muchas gracias por participar! </p><br>
-              
-              <p style='font-size:200%;color:white'>  Para comenzar por favor presione la barra espaciadora </p>
-              `
-
               return trial_data.viewing_distance_cm;
           }
 
@@ -258,11 +231,20 @@ jsPsych.plugins['virtual-chin'] = (function() {
 
       // You can write functions here that live only in the scope of plugin.trial
       function show_stimulus(){
-        display_element.innerHTML = `<p>Por favor repetí la medición de la tarjeta,pero esta vez utilizando la barra deslizante.</p>`    
+
+        // var new_html = '<div </div>';
+
+        // // add prompt
+        // if(trial.prompt !== null){
+        //   new_html += trial.prompt;
+        // }
+
+        // // draw
+        // display_element.innerHTML = new_html;
 
 
+          // Promp
           var html = "<body><div id='content'><div id='page-size'><br><br><br><br><br><br>";
-          // html += "<h3> Let’s find out what your monitor size is (click to go into <div onclick='fullScreen(); registerClick();' style='display:inline; cursor:pointer; color: red'><em><u>full screen mode</u></em></div>).</h2>";
           
           html += "<p>Por favor repita la medición de la misma tarjeta, pero esta vez utilizando la barra deslizante.</p>";   
           
@@ -287,18 +269,25 @@ jsPsych.plugins['virtual-chin'] = (function() {
 
           html += '<div id="svgDiv" style="width:1000px;height:200px;"></div>';
           html +=  "Presioná la barra <div id='click' style='display:inline; color: red; font-weight: bold'>5</div> veces más!</div>";
+         
 
 
-      display_element.innerHTML = html; //
+          display_element.innerHTML = html; 
+
+      
+      //Event listeners for buttons
+
       document.getElementById("btnBlindSpot").addEventListener('click', function() {
-        // console.log('presionaste el boton 1');
+        console.log('presionaste el boton 1');
         configureBlindSpot();
       });
 
       document.getElementById("start").addEventListener('click', function() {
-        // console.log('presionaste el boton 2');
+        console.log('presionaste el boton 2');
         animateBall(); 
       });
+
+
 
         jsPsych.pluginAPI.getKeyboardResponse({ 
           callback_function: after_response,                           // we need to create after_response
@@ -308,42 +297,19 @@ jsPsych.plugins['virtual-chin'] = (function() {
           allow_held_key: true                                       // false for a new key pressing in order to get a new response  
         }); 
       }
-                  
-              //     <div id="container">
-              //         <div id="slider"></div>
-              //         <br>
-              //         <img id="card" src="card.png" style="width: 50%">
-              //         <br><br>
-              //         <button class="btn btn-primary" onclick="configureBlindSpot()">Click here when you are done!</button>
-              //     </div>
-              // </div>
-      
+       
 
-
-       // scales the stimulus
-    //     var scale_factor;
-    //     var final_height_px, final_width_px;
-    //     final_width_px = trial.cardWidth_px;
-    //     function scale() {
-    //       final_width_px = scale_div.offsetWidth;
-    //       //final_height_px = scale_div.offsetHeight;
-
-    //       var pixels_unit_screen = final_width_px / trial.item_width;
-
-    //       scale_factor = pixels_unit_screen / trial.pixels_per_unit;
-    //       document.getElementById("jspsych-content").style.transform = "scale(" + scale_factor + ")";
-    // };
       function after_response(response_info){
         // rt.push(response_info.rt); // response time of the key
-        // scale() // Esto lo agregue pero no creo que quede
         end_trial();
       }
 
       function end_trial(){
-        document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
-        // trial_data.viewingDistance=   JSON.stringify(viewingDistance); // best practice for saving in jsPsych. It is a JSON instead of array.
         jsPsych.finishTrial(trial_data); // ends trial and save the data
-        display_element.innerHTML = ' '; // clear the display
+        // display_element.innerHTML = ' '; // clear the display
+
+        jsPsych.pluginAPI.cancelAllKeyboardResponses();
+        
 
       }
       show_stimulus();
