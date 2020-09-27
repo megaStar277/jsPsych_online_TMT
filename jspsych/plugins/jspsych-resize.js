@@ -72,7 +72,7 @@ jsPsych.plugins["resize"] = (function() {
 
     // create html for display
     var html ='<div id="jspsych-resize-div" style="border: 2px solid steelblue; height: '+start_div_height+'px; width:'+start_div_width+'px; margin: 7px auto; background-color: lightsteelblue; position: relative;">';
-    html += '<div id="jspsych-resize-handle" style="cursor: nwse-resize; background-color: steelblue; width: 10px; height: 10px; border: 2px solid lightsteelblue; position: absolute; bottom: 0; right: 0;"></div>';
+    html += '<div id="jspsych-resize-handle" style="cursor: nwse-resize; background-color: red; width: 10px; height: 10px; border: 2px solid lightsteelblue; position: absolute; bottom: 0; right: 0;"></div>';
     html += '</div>';
     if (trial.prompt !== null){
       html += trial.prompt;

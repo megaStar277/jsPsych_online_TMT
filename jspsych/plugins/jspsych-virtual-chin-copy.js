@@ -1,6 +1,6 @@
 /*
- *  plugin based in  Qisheng Li 11/2019. /// https://github.com/QishengLi/virtual_chinrest
-    Modified by Gustavo Juantorena 08/2020
+ *  plugin based in  Qisheng Li 11/2019.    //   https://github.com/QishengLi/virtual_chinrest
+    Modified by Gustavo Juantorena 08/2020  //   https://github.com/GEJ1
  */
 
 jsPsych.plugins['virtual-chin'] = (function() {
@@ -232,18 +232,8 @@ jsPsych.plugins['virtual-chin'] = (function() {
       // You can write functions here that live only in the scope of plugin.trial
       function show_stimulus(){
 
-        // var new_html = '<div </div>';
 
-        // // add prompt
-        // if(trial.prompt !== null){
-        //   new_html += trial.prompt;
-        // }
-
-        // // draw
-        // display_element.innerHTML = new_html;
-
-
-          // Promp
+      // create html for display
           var html = "<body><div id='content'><div id='page-size'><br><br><br><br><br><br>";
           
           html += "<p>Por favor repita la medición de la misma tarjeta, pero esta vez utilizando la barra deslizante.</p>";   
@@ -271,8 +261,8 @@ jsPsych.plugins['virtual-chin'] = (function() {
           html +=  "Presioná la barra <div id='click' style='display:inline; color: red; font-weight: bold'>5</div> veces más!</div>";
          
 
-
-          display_element.innerHTML = html; 
+      // render
+      display_element.innerHTML = html; 
 
       
       //Event listeners for buttons
@@ -286,7 +276,6 @@ jsPsych.plugins['virtual-chin'] = (function() {
         console.log('presionaste el boton 2');
         animateBall(); 
       });
-
 
 
         jsPsych.pluginAPI.getKeyboardResponse({ 
