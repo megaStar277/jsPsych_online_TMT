@@ -9,7 +9,7 @@
 
 The [Trail Making Test](https://en.wikipedia.org/wiki/Trail_Making_Test) is a neuropsychological test of visual attention and task switching. It consists of two parts in which the subject is instructed to connect a set of 25 dots as quickly as possible while still maintaining accuracy. The test can provide information about visual search speed, scanning, speed of processing, mental flexibility, as well as executive functioning. It is sensitive to detecting cognitive impairment associated with dementia, for example, Alzheimer's disease.
 
-![Alt Text](https://github.com/GEJ1/jsPsych_online_TMT/blob/master/tmt_b_gif.gif)
+![Alt Text](https://github.com/GEJ1/jsPsych_online_TMT/blob/master/tmt_b_gif_2.gif)
 
 
 Content
