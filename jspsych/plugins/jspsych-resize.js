@@ -71,13 +71,27 @@ jsPsych.plugins["resize"] = (function() {
     }
 
     // create html for display
-    var html ='<div id="jspsych-resize-div" style="border: 2px solid steelblue; height: '+start_div_height+'px; width:'+start_div_width+'px; margin: 7px auto; background-color: lightsteelblue; position: relative;">';
-    html += '<div id="jspsych-resize-handle" style="cursor: nwse-resize; background-color: red; width: 10px; height: 10px; border: 2px solid lightsteelblue; position: absolute; bottom: 0; right: 0;"></div>';
-    html += '</div>';
-    if (trial.prompt !== null){
+    var html =
+      //big div
+      '<div id="jspsych-resize-div" style="border: 2px solid steelblue; height: ' +
+      start_div_height +
+      "px; width:" +
+      start_div_width +
+      'px; margin: 7px auto; background-color: lightsteelblue; position: relative;">';
+    html +=
+      //small div 
+      `<div id="jspsych-resize-handle" style="cursor: nwse-resize; background-color: red; width: 10px; height: 10px; border: 
+        2px solid lightsteelblue; position: absolute; bottom: 0; right: 0;"></div>`;
+    html += "</div>";
+
+    if (trial.prompt !== null) {
       html += trial.prompt;
     }
-    html += '<a class="jspsych-btn" id="jspsych-resize-btn">'+trial.button_label+'</a>';
+    html +=
+      //button
+      '<a class="jspsych-btn" id="jspsych-resize-btn">' +
+      trial.button_label +
+      "</a>";
 
     // render
     display_element.innerHTML = html;
@@ -97,7 +111,7 @@ jsPsych.plugins["resize"] = (function() {
       dragging = true;
       origin_x = e.pageX; //An integer value, in pixels, indicating the X coordinate at which the mouse pointer was located when the event occurred.
       origin_y = e.pageY;
-      cx = parseInt(scale_div.style.width);
+      cx = parseInt(scale_div.style.width); //convert to int
       cy = parseInt(scale_div.style.height);
     }
 
@@ -131,27 +145,24 @@ jsPsych.plugins["resize"] = (function() {
     // scales the stimulus
     var scale_factor;
     var final_height_px, final_width_px;
+
     function scale() {
       final_width_px = scale_div.offsetWidth;
-      //final_height_px = scale_div.offsetHeight;
+      //final_height_px = scale_div.offsetHeight; //This was commented in original version
 
       var pixels_unit_screen = final_width_px / trial.item_width;
 
-      scale_factor = (pixels_unit_screen / trial.pixels_per_unit)*1.4;
-      // scale_factor = scale_factor*1.5 // esto da bastante razonable
+      // scale_factor = (pixels_unit_screen / trial.pixels_per_unit)*1.4;
+      scale_factor = (pixels_unit_screen / trial.pixels_per_unit);
+      console.log("pixel_per_unit " + trial.pixels_per_unit + " usado en resize");
+     
+
       document.getElementById("jspsych-content").style.transform = "scale(" + scale_factor + ")";
       // document.getElementsByClassName('jspsych-display-element')[0].style.transform = "scale(" + scale_factor + ")";
       // jspsych-display-element
     };
 
-    //BLINDSPOT PART
-
-
-
-
-
-
-
+   
 
     // function to end trial
     function end_trial() {

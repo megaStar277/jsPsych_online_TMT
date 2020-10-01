@@ -173,7 +173,7 @@ jsPsych.plugins["psychophysics"] = (function() {
           plugin.trial = function(display_element, trial) {
 
           //Change background color
-          document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
+          // document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
 
 
           const elm_jspsych_content = document.getElementById('jspsych-content');
@@ -262,7 +262,7 @@ jsPsych.plugins["psychophysics"] = (function() {
     display_element.innerHTML = new_html;
 
    
-    var canvas = document.getElementById('myCanvas'); // var en lugar de const
+    var canvas = document.getElementById('myCanvas'); 
 
 
     if ( ! canvas || ! canvas.getContext ) {

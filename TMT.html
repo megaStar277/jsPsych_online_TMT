@@ -30,15 +30,14 @@
     <script src="jspsych/jspsych.js"></script>
 
     <!-- jsPsych plugins-->
-    <script src="jspsych/plugins/jspsych-call-function.js"></script>
+    <!-- <script src="jspsych/plugins/jspsych-call-function.js"></script> -->
     <script src="jspsych/plugins/jspsych-fullscreen.js"></script>   
     <script src="jspsych/plugins/jspsych-psychophysics_modified.js"></script>
     <script src="jspsych/plugins/jspsych-survey-html-form.js"></script>
-    <!-- <script src= 'jspsych/plugins/jspsych-virtual-chin-copy.js'></script> -->
-    <script src= 'jspsych/plugins/jspsych-virtual-chin-rest_probando.js'></script>
+    <script src= 'jspsych/plugins/jspsych-virtual-chin-copy.js'></script>
     <script src="jspsych/plugins/jspsych-resize.js"></script>
     <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
-    <script src="jspsych/plugins/jspsych-instructions.js"></script>   
+    <script src="jspsych/plugins/jspsych-instructions_modified.js"></script>   
     
     <!-- For local saving of the data in CSV format -->
     <script src="utils.js"></script> 
@@ -46,6 +45,20 @@
 </head>
 <body></body>
 <script>
+
+// let pixel_unit
+
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+
+// pixel_unit = (w)/15
+
+
+// console.log("w " + w + " usado en TMT");
+// console.log("h " + h + " usado en TMT");
+// console.log("pixel_per_unit " + pixel_unit + " usado en TMT");
+
 
 
 
@@ -343,20 +356,25 @@ function shuffle(array) {
     show_clickable_nav: true,
     show_page_number: true,
     button_label_previous: 'Anterior',
-    button_label_next: 'Siguiente'
+    button_label_next: 'Siguiente',
+    page_label: 'Página'
   }
 
-
+    //if it's bigger, the image displayed is bigger too
+    let pixel_factor = 0.75;
+    
     var resize_trial = {
       type: 'resize',
-      item_width: 3 + 3/8,
-      item_height: 2 + 1/8,
+      item_width: 3 + 3/8, //Width of credit card in inches
+      item_height: 2 + 1/8, //Heigth of credit card in inches
     //   prompt: "<p>Click and drag the lower right corner of the box until the box is the same size as a credit card held up to the screen.</p>",
       prompt: `<p style='font-size:120%;color:black'> Por favor coloque una tarjeta sobre la pantalla (puede ser crédito, débito, SUBE o cualquiera que tenga tamaño 
                 estándar 8.56 x 5.4 cm),<br> luego haga click sobre el recuadro rojo que se encuentra en la esquina inferior derecha 
                 hasta que sean del mismo tamaño que su tarjeta <br> Asegúrese de poner la tarjeta sobre la pantalla<br><br>
                 Esto nos sirve para estimar el tamaño de su pantalla comparándolo con un objeto de tamaño conocido.</p>`,
-      pixels_per_unit: 642/4, // Tendre que cambiar esto? el original es 642/4
+    //   pixels_per_unit: 642/4, // After the scaling factor is applied, this many pixels will equal one unit of measurement.
+    //   pixels_per_unit: pixel_unit, // After the scaling factor is applied, this many pixels will equal one unit of measurement.
+      pixels_per_unit: (642/4)*pixel_factor, // After the scaling factor is applied, this many pixels will equal one unit of measurement.
       button_label: 'Continuar'
     };
 
@@ -412,6 +430,21 @@ function shuffle(array) {
             randomize_order: false //We randomize at top of script 'manually'
     }
 
+    // let test_heigth = document.getElementById("myCanvas").height
+    // let test_width  = document.getElementById("myCanvas").width
+    // let test_height;
+    // let test_width;
+    // var correct_size = {
+    //         type: "html-keyboard-response",
+    //         stimulus:  '<div id="jspsych-resize-div" style="border: 2px solid steelblue; height: ' +
+    //                     test_height +
+    //                     "px; width:" +
+    //                     test_width +
+    //                     'px; margin: 7px auto; background-color: steelblue; position: relative;">'
+    //         // choices: jsPsych.NO_KEYS
+    //     };
+     
+
     var greetings = {
             type: "html-keyboard-response",
             stimulus: '<p style="font-size: 48px;">"El experimento terminó <br><br><br> ¡Muchas gracias por haber participado! <br><br><br>Presioná cualquier tecla para enviar los datos"</p>',
@@ -424,7 +457,8 @@ function shuffle(array) {
         // timeline: [welcome_block,fullScreen,resize_trial, chin,instrucciones_posta,trial,greetings],
         // timeline: [fullScreen, resize_trial, chin, instruction, trial, greetings],
         // timeline: [chin, welcome_block, greetings],
-        timeline: [fullScreen, explanation, trial],
+        timeline: [fullScreen, resize_trial, trial],
+
         
         on_interaction_data_update: function(data) {
             // get the main trial data
@@ -434,15 +468,24 @@ function shuffle(array) {
         
         // Image data should be preloaded
         preload_images: images, 
+
+        //When experiment finish, the function in on_finish activates
         on_finish: function(){
       
+        // Display data
         jsPsych.data.displayData();
+
+        //Save data as CSV
         let CSV = jsPsych.data.get().csv();
          // downloadJSON(json, filename)
         let filename = 'tmt_data.csv';
         downloadCSV(CSV, filename);
-        },
         
+        //Go to URL
+        // location.href = "https://liaa.dc.uba.ar/es/inicio/"
+    
+        },
+
         //minimum browser size values
         exclusions: {       
             min_width: 800,

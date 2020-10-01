@@ -46,6 +46,18 @@ jsPsych.plugins.fullscreen = (function() {
 
   plugin.trial = function(display_element, trial) {
 
+    // Get screen size
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    
+
+    pixel_unit = w/h
+
+  
+    console.log("w " + w + " usado en fullscreen");
+    console.log("h " + h + " usado en fullscreen");
+    console.log("pixel_per_unit " + pixel_unit + " usado en fullscreen");
+
     // check if keys are allowed in fullscreen mode
     var keyboardNotAllowed = typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
     if (keyboardNotAllowed) {
@@ -91,6 +103,7 @@ jsPsych.plugins.fullscreen = (function() {
         var trial_data = {
           success: !keyboardNotAllowed
         };
+        
 
         jsPsych.finishTrial(trial_data);
 
