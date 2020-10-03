@@ -86,8 +86,10 @@ function disableScroll() {
                 window.scrollTo(scrollLeft, scrollTop); 
             }; 
     } 
-    
-disableScroll();
+
+
+ // *******************DESCOMENTAR ESTO ******************************   
+// disableScroll();
 
 //Shuffle using Fisher-Yates
 function shuffle(array) {
@@ -368,7 +370,7 @@ function shuffle(array) {
       item_width: 3 + 3/8, //Width of credit card in inches
       item_height: 2 + 1/8, //Heigth of credit card in inches
     //   prompt: "<p>Click and drag the lower right corner of the box until the box is the same size as a credit card held up to the screen.</p>",
-      prompt: `<p style='font-size:120%;color:black'> Por favor coloque una tarjeta sobre la pantalla (puede ser crédito, débito, SUBE o cualquiera que tenga tamaño 
+    prompt: `<p style='font-size:120%;color:black'> Por favor coloque una tarjeta sobre la pantalla (puede ser crédito, débito, SUBE o cualquiera que tenga tamaño 
                 estándar 8.56 x 5.4 cm),<br> luego haga click sobre el recuadro rojo que se encuentra en la esquina inferior derecha 
                 hasta que sean del mismo tamaño que su tarjeta <br> Asegúrese de poner la tarjeta sobre la pantalla<br><br>
                 Esto nos sirve para estimar el tamaño de su pantalla comparándolo con un objeto de tamaño conocido.</p>`,
@@ -377,8 +379,7 @@ function shuffle(array) {
       pixels_per_unit: (642/4)*pixel_factor, // After the scaling factor is applied, this many pixels will equal one unit of measurement.
       button_label: 'Continuar'
     };
-
-
+    
     // var text_object = {
     //   obj_type: 'text',
     //   content: 'Se le mostrara una pantalla con circulos.<br> Tendra que unirlos en orden ascendente, por favor presione la barra espaciadora para continuar.',
@@ -457,7 +458,7 @@ function shuffle(array) {
         // timeline: [welcome_block,fullScreen,resize_trial, chin,instrucciones_posta,trial,greetings],
         // timeline: [fullScreen, resize_trial, chin, instruction, trial, greetings],
         // timeline: [chin, welcome_block, greetings],
-        timeline: [fullScreen, resize_trial, trial],
+        timeline: [fullScreen, trial],
 
         
         on_interaction_data_update: function(data) {

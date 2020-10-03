@@ -216,7 +216,7 @@ jsPsych.plugins["psychophysics"] = (function() {
 
     canvas.addEventListener("mouseup", mouseUpFunc);
    
-    // agregado por mi (para abajo)
+    // ***************************** agregado por mi (para abajo) ****************************************
 
      canvas.addEventListener('mousedown', e => {
       //  console.log('entro a mousedown');
@@ -248,7 +248,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       }
     });
 
-     //agregado por mi (para arriba)
+     // ***************************** agregado por mi (para arriba) *****************************
 
       } // aca cierra un else
     }, trial.response_start_time); // cierra todo jsPsych.pluginAPI.setTimeout(function()
@@ -457,16 +457,36 @@ jsPsych.plugins["psychophysics"] = (function() {
       }
     }
     
-    //Estas funciones las agregue yo (de aca para abajo)
+    //Estas funciones las agregue yo (de aca para abajo) *********************************************
     function mouseMove(e){
 
       var x = e.clientX;
       var y = e.clientY;
       var coor = "(" + x + "," + y + ")";
-      // console.log(coor);
+      console.log(coor);
       pos_tracking.push(coor); 	//Save coor in array pos_tracking
-      
-      };
+      //Poner un timer aca
+      let elapsedTime;
+    //let currentX, currentY;
+
+    // function step(timestamp){
+    //   if (!startStep) {
+    //     startStep = timestamp;
+    //     sumOfStep = 0;
+    //   } else {
+    //     sumOfStep += 1;
+    //   }
+    //   elapsedTime = timestamp - startStep;
+      var startTime = Date.now();
+
+      var interval = setInterval(function() {
+          var elapsedTime = Date.now() - startTime;
+          (elapsedTime / 1000).toFixed(3);
+        }, 100);
+        // interval
+        cursor_time.push(interval); 
+      }
+    
 
     function drawLine(ctx, x1, y1, x2, y2) {
       // console.log('entre a DRAWLINE');
@@ -506,7 +526,8 @@ jsPsych.plugins["psychophysics"] = (function() {
           rt: click_time - start_time,
           clickX: e.offsetX,
           clickY: e.offsetY,
-          pos_tracking: pos_tracking 
+          pos_tracking: pos_tracking ,
+          cursor_time: cursor_time
    
       });
       
@@ -688,9 +709,10 @@ jsPsych.plugins["psychophysics"] = (function() {
     function present_sound(stim){
       // This is not needed actually.
     }
-
+    // Aca resetea en cada trial
     let startStep = null;
     const pos_tracking = []; // Poniendolo aca se resetea en cada trial
+    cursor_time        = [];
 
 
 
@@ -799,7 +821,8 @@ jsPsych.plugins["psychophysics"] = (function() {
           "position_y": response.positionY,
           "click_x": response.clickX,
           "click_y": response.clickY,
-          "position": pos_tracking
+          "position": pos_tracking,
+          "cursor time": cursor_time
 
           // "click_x": response.clickX - centerX,
           // "click_y": response.clickY- centerY
@@ -813,7 +836,8 @@ jsPsych.plugins["psychophysics"] = (function() {
           "avg_frame_time": elapsedTime/sumOfStep,
           "mousePositionX": response.positionX, 
           "mousePositionY": response.positionY,
-          "position": pos_tracking
+          "position": pos_tracking,
+          "cursor time": cursor_time
         };
 
       }
@@ -822,7 +846,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       display_element.innerHTML = '';
 
       // move on to the next trial
-      jsPsych.finishTrial(trial_data,pos_tracking);
+      jsPsych.finishTrial(trial_data,cursor_time);
     };
 
     // getAvgSD = function(){
