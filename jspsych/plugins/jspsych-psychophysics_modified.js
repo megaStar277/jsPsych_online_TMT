@@ -245,6 +245,7 @@ jsPsych.plugins["psychophysics"] = (function() {
         x = 0;
         y = 0;
         isDrawing = false;
+
       }
     });
 
@@ -465,28 +466,23 @@ jsPsych.plugins["psychophysics"] = (function() {
       var coor = "(" + x + "," + y + ")";
       console.log(coor);
       pos_tracking.push(coor); 	//Save coor in array pos_tracking
-      //Poner un timer aca
-      let elapsedTime;
-    //let currentX, currentY;
+      
+      //timer for cursor 
+     
+      // var startTime = Date.now();
+      
+      let startTime = Math.round(performance.now()) ;
 
-    // function step(timestamp){
-    //   if (!startStep) {
-    //     startStep = timestamp;
-    //     sumOfStep = 0;
-    //   } else {
-    //     sumOfStep += 1;
-    //   }
-    //   elapsedTime = timestamp - startStep;
-      var startTime = Date.now();
-
-      var interval = setInterval(function() {
-          var elapsedTime = Date.now() - startTime;
-          (elapsedTime / 1000).toFixed(3);
-        }, 100);
-        // interval
-        cursor_time.push(interval); 
+      //start_time was declared at begining of the trial
+      let time_in_trial = startTime - start_time
+     
+      console.log(time_in_trial);
+      console.log(jsPsych.totalTime())
+      
+      cursor_time.push(time_in_trial); 
+     
       }
-    
+     
 
     function drawLine(ctx, x1, y1, x2, y2) {
       // console.log('entre a DRAWLINE');
@@ -527,8 +523,7 @@ jsPsych.plugins["psychophysics"] = (function() {
           clickX: e.offsetX,
           clickY: e.offsetY,
           pos_tracking: pos_tracking ,
-          cursor_time: cursor_time
-   
+          cursor_time: cursor_time   
       });
       
     }
@@ -713,6 +708,8 @@ jsPsych.plugins["psychophysics"] = (function() {
     let startStep = null;
     const pos_tracking = []; // Poniendolo aca se resetea en cada trial
     cursor_time        = [];
+    
+    // startTime = startTime - startTime;
 
 
 
@@ -845,6 +842,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       // clear the display
       display_element.innerHTML = '';
 
+
       // move on to the next trial
       jsPsych.finishTrial(trial_data,cursor_time);
     };
@@ -855,6 +853,7 @@ jsPsych.plugins["psychophysics"] = (function() {
 
     // function to handle responses by the subject
     var after_response = function(info) {
+      
 
       // after a valid response, the stimulus will have the CSS class 'responded'
       // which can be used to provide visual feedback that a response was recorded
