@@ -474,11 +474,14 @@ jsPsych.plugins["psychophysics"] = (function() {
       let startTime = Math.round(performance.now()) ;
 
       //start_time was declared at begining of the trial
-      let time_in_trial = startTime - start_time
-     
-      console.log(time_in_trial);
-      console.log(jsPsych.totalTime())
       
+      let time_in_trial = Math.round(startTime - start_time)
+     
+      // console.log("T1: " + startTime);
+      // console.log("T2: " + Math.round(start_time));
+      // console.log("T1 - T2: " + time_in_trial);
+      
+      //cursor time is an array with the time measurement for every [x,y] position relative to the start of the trial
       cursor_time.push(time_in_trial); 
      
       }
@@ -499,14 +502,13 @@ jsPsych.plugins["psychophysics"] = (function() {
     //Estas funciones las agregue yo (de aca para arriba)
 
     function mouseUpFunc(e){  //ex mouseDownFunc
-      // console.log('entro a mouseUp');
-      let click_time;
-      // const pos_tracking = []; 
+      
+      let release_click_time;
       
       if (motion_rt_method == 'date') {
-        click_time = (new Date()).getTime();
+        release_click_time = (new Date()).getTime();
       } else {
-        click_time = performance.now();
+        release_click_time = performance.now();
       }
       if (isDrawing === true) {
         drawLine(ctx, x, y, e.offsetX, e.offsetY);
@@ -519,7 +521,7 @@ jsPsych.plugins["psychophysics"] = (function() {
 
       after_response({ // callback function
           key: -1,
-          rt: click_time - start_time,
+          rt: release_click_time - start_time,
           clickX: e.offsetX,
           clickY: e.offsetY,
           pos_tracking: pos_tracking ,
