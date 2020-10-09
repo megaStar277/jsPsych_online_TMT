@@ -60,8 +60,6 @@ var h = window.innerHeight;
 // console.log("pixel_per_unit " + pixel_unit + " usado en TMT");
 
 
-
-
 // Mouse coordinates (x , y) 
 let x = 0;
 let y = 0; 
@@ -206,7 +204,7 @@ function shuffle(array) {
     }
 
 
-    // The blocks of the experiment 
+    // ** The blocks of the experiment **
 
     // Welcome
     var welcome_block = {
@@ -272,6 +270,7 @@ function shuffle(array) {
         }
     }
 
+    //fixation cross
     var extra_cross = {
         obj_type: 'cross', // fixation
         line_length: 20, // pixels
@@ -320,10 +319,12 @@ function shuffle(array) {
         button_label: 'Continuar a pantalla completa'    
     } 
     
+    //virtual chin rest = size of card + blindspot task
     var chin = {    
         type: 'virtual-chin'
     }
 
+    // Instructions for the experiment. Text + gifs
     var explanation = {
     type: 'instructions',
     pages: [
@@ -361,6 +362,8 @@ function shuffle(array) {
     page_label: 'Página'
   }
 
+    // Resize trial with credit card firts measurement
+
     //if it's bigger, the image displayed is bigger too
     let pixel_factor = 0.75;
     
@@ -379,22 +382,8 @@ function shuffle(array) {
       button_label: 'Continuar'
     };
     
-    // var text_object = {
-    //   obj_type: 'text',
-    //   content: 'Se le mostrara una pantalla con circulos.<br> Tendra que unirlos en orden ascendente, por favor presione la barra espaciadora para continuar.',
-    //   font: "24px 'Arial'",
-    //   text_color: 'white',
-    //   text_space: 100,
-    // }
 
-    // var instruction = {
-    //     type: 'psychophysics',
-    //     stimuli: [text_object],
-    //     choices: ['enter'],
-    // }
-
-
-
+    // TMT experimental trials
     var trial = {
         timeline: [
                 
@@ -430,20 +419,6 @@ function shuffle(array) {
             randomize_order: false //We randomize at top of script 'manually'
     }
 
-    // let test_heigth = document.getElementById("myCanvas").height
-    // let test_width  = document.getElementById("myCanvas").width
-    // let test_height;
-    // let test_width;
-    // var correct_size = {
-    //         type: "html-keyboard-response",
-    //         stimulus:  '<div id="jspsych-resize-div" style="border: 2px solid steelblue; height: ' +
-    //                     test_height +
-    //                     "px; width:" +
-    //                     test_width +
-    //                     'px; margin: 7px auto; background-color: steelblue; position: relative;">'
-    //         // choices: jsPsych.NO_KEYS
-    //     };
-     
 
     var greetings = {
             type: "html-keyboard-response",
