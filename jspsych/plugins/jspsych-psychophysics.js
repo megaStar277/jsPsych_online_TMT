@@ -5,7 +5,7 @@
  * 
  * jspsych-psychophysics is a plugin for conducting Web-based psychophysical experiments using jsPsych (de Leeuw, 2015). 
  *
- * http://jspsychophysics.hes.kyushu-u.ac.jp/
+ * http://jspsychophysics.hes.kyushu-u.ac.jp/   
  *
  **/
 
@@ -166,45 +166,93 @@ jsPsych.plugins["psychophysics"] = (function() {
         description: 'This function enables to move objects as you wish.'        
       },
     }
-  }
+   }
 
-  plugin.trial = function(display_element, trial) {
-    
-    const elm_jspsych_content = document.getElementById('jspsych-content');
-    const style_jspsych_content = window.getComputedStyle(elm_jspsych_content); // stock
-    const default_maxWidth = style_jspsych_content.maxWidth;
-    elm_jspsych_content.style.maxWidth = 'none'; // The default value is '95%'. To fit the window.
+          let default_maxWidth;
+        
+          plugin.trial = function(display_element, trial) {
 
-    let new_html = '<canvas id="myCanvas" class="jspsych-canvas" width=' + trial.canvas_width + ' height=' + trial.canvas_height + ' style="background-color:' + trial.background_color + ';"></canvas>';
+          //Change background color
+          // document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
 
-    const motion_rt_method = 'performance'; // 'date' or 'performance'. 'performance' is better.
-    let start_time;
-    
-    let keyboardListener;
-    // allow to respond using keyboard or mouse
-    jsPsych.pluginAPI.setTimeout(function() {
-      if (trial.response_type === 'key'){
-        if (trial.choices != jsPsych.NO_KEYS) {
-          keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
-            callback_function: after_response,
-            valid_responses: trial.choices,
-            rt_method: motion_rt_method,
-            persist: false,
-            allow_held_key: false
-          });
-        }  
-      } else {
 
-        if (motion_rt_method == 'date') {
-          start_time = (new Date()).getTime();
-        } else {
-          start_time = performance.now();
-        }
+          const elm_jspsych_content = document.getElementById('jspsych-content');
+          const style_jspsych_content = window.getComputedStyle(elm_jspsych_content); // stock
+          default_maxWidth = style_jspsych_content.maxWidth;
+          elm_jspsych_content.style.maxWidth = 'none'; // The default value is '95%'. To fit the window
 
-        //window.addEventListener("mousedown", mouseDownFunc);
-        canvas.addEventListener("mousedown", mouseDownFunc);
+          let new_html =
+            '<canvas id="myCanvas" class="jspsych-canvas" width=' +
+            trial.canvas_width +
+            " height=" +
+            trial.canvas_height +
+            ' style="background-color:' +
+            trial.background_color +
+            ';"></canvas>';
+
+          const motion_rt_method = 'performance'; // 'date' or 'performance'. 'performance' is better
+          let start_time;
+          
+        // allow to respond using keyboard or mouse
+        jsPsych.pluginAPI.setTimeout(function() {
+          if (trial.response_type === 'key'){
+            if (trial.choices != jsPsych.NO_KEYS) {
+              var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
+                callback_function: after_response,
+                valid_responses: trial.choices,
+                rt_method: motion_rt_method,
+                persist: false,
+                allow_held_key: false
+              });
+            }  
+          } else {
+          
+    if (motion_rt_method == 'date') { // date y perfomance son metodos para el rt
+      start_time = (new Date()).getTime();
+    } else {
+      start_time = performance.now();
+    }
+
+
+    canvas.addEventListener("mouseup", mouseUpFunc);
+   
+    // ***************************** agregado por mi (para abajo) ****************************************
+
+     canvas.addEventListener('mousedown', e => {
+      //  console.log('entro a mousedown');
+      
+        x = e.offsetX;
+        y = e.offsetY;
+
+        isDrawing = true;
+      });  
+
+
+    canvas.addEventListener( "mousemove", function(e){
+      // console.log('entro a mouseMove');
+      if (isDrawing === true) {
+        // console.log('entro al IF de mouseMove');
+        drawLine(ctx, x, y, e.offsetX, e.offsetY);
+        x = e.offsetX;
+        y = e.offsetY;
       }
-    }, trial.response_start_time);
+    mouseMove(e);
+    });
+
+    canvas.addEventListener('mouseup', e => {
+      if (isDrawing === true) {
+        drawLine(ctx, x, y, e.offsetX, e.offsetY);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+
+      }
+    });
+
+     // ***************************** agregado por mi (para arriba) *****************************
+
+      } // aca cierra un else
+    }, trial.response_start_time); // cierra todo jsPsych.pluginAPI.setTimeout(function()
 
     // add prompt
     if(trial.prompt !== null){
@@ -214,15 +262,17 @@ jsPsych.plugins["psychophysics"] = (function() {
     // draw
     display_element.innerHTML = new_html;
 
-    const canvas = document.getElementById('myCanvas');
+   
+    var canvas = document.getElementById('myCanvas'); 
+
+
     if ( ! canvas || ! canvas.getContext ) {
       alert('This browser does not support the canvas element.');
       return;
     }
     const ctx = canvas.getContext('2d');
-    
-    const centerX = canvas.width/2;
-    const centerY = canvas.height/2;
+    const centerX = canvas.width/2; // OJO, ACA MODIFIQUE
+    const centerY = canvas.height/2; // OJO, ACA MODIFIQUE
     
     if (typeof trial.stimuli === 'undefined' && trial.stepFunc === null){
       alert('You have to specify the stimuli/stepFunc parameter in the psychophysics plugin.')
@@ -240,9 +290,10 @@ jsPsych.plugins["psychophysics"] = (function() {
       manual: set_manual
     }
 
+    // aca tengo que comentar porque sino me aparece una alerta, pero por lo visto no genera ningun comportamiento raro
     function set_sound(stim){
       if (typeof stim.file === 'undefined') {
-        alert('You have to specify the file property.')
+        // alert('You have to specify the file property.') // Esto es una cosa re cabeza! des-comentar de ser necesario
         return;
       }
 
@@ -316,7 +367,7 @@ jsPsych.plugins["psychophysics"] = (function() {
 
       // Velocity is not specified
           
-      if (endPos === null) return 0; // This is not motion.
+      if (endPos === null) return 0; // This is not motion
 
       // Distance is specified
 
@@ -328,10 +379,12 @@ jsPsych.plugins["psychophysics"] = (function() {
       return (endPos - startPos)/(motion_end_time/1000 - motion_start_time/1000);
     }
 
+    
+    // aca tengo que comentar porque sino me aparece una alerta, pero por lo visto no genera ningun comportamiento raro
     function set_image(stim){
       common_set(stim);
       if (typeof stim.file === 'undefined') {
-        alert('You have to specify the file property.');
+        // alert('You have to specify the file property.'); // Esto es re cabeza, des-comentar de ser necesario
         return;
       }
       stim.img = new Image();
@@ -345,8 +398,8 @@ jsPsych.plugins["psychophysics"] = (function() {
           alert('You have to specify the angle of lines, or the start (x1, y1) and end (x2, y2) coordinates.');
           return;
         }
-        // The start (x1, y1) and end (x2, y2) coordinates are defined.
-        // For motion, startX/Y must be calculated.
+        // The start (x1, y1) and end (x2, y2) coordinates are defined
+        // For motion, startX/Y must be calculated
         stim.startX = (stim.x1 + stim.x2)/2;
         stim.startY = (stim.y1 + stim.y2)/2;
         stim.currentX = stim.startX;
@@ -359,7 +412,7 @@ jsPsych.plugins["psychophysics"] = (function() {
         if (typeof stim.line_length === 'undefined') alert('You have to specify the line_length property.');
         
       }
-      if (typeof stim.line_color === 'undefined') stim.line_color = '#000000';
+      if (typeof stim.line_color === 'undefined') stim.line_color = 'white';
     }
 
     function set_rect(stim){
@@ -392,7 +445,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       common_set(stim);
     }
     
-    /////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////
     // check and set the property for all stimuli
     if (typeof trial.stimuli !== 'undefined') { // The stimuli could be 'undefined' if the stepFunc is specified.
       for (let i = 0; i < trial.stimuli.length; i++){
@@ -404,30 +457,79 @@ jsPsych.plugins["psychophysics"] = (function() {
         set_functions[stim.obj_type](stim);
       }
     }
+    
+    //Estas funciones las agregue yo (de aca para abajo) *********************************************
+    function mouseMove(e){
 
-    function mouseDownFunc(e){
+      var x = e.clientX;
+      var y = e.clientY;
+      var coor = "(" + x + "," + y + ")";
+      console.log(coor);
+      pos_tracking.push(coor); 	//Save coor in array pos_tracking
       
-      let click_time;
+      //timer for cursor 
+     
+      // var startTime = Date.now();
+      
+      let startTime = Math.round(performance.now()) ;
+
+      //start_time was declared at begining of the trial
+      
+      let time_in_trial = Math.round(startTime - start_time)
+     
+      // console.log("T1: " + startTime);
+      // console.log("T2: " + Math.round(start_time));
+      // console.log("T1 - T2: " + time_in_trial);
+      
+      //cursor time is an array with the time measurement for every [x,y] position relative to the start of the trial
+      cursor_time.push(time_in_trial); 
+     
+      }
+     
+
+    function drawLine(ctx, x1, y1, x2, y2) {
+      // console.log('entre a DRAWLINE');
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'green'; // drawLine color
+      ctx.lineWidth = 2;
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2) 
+      ctx.stroke();
+      ctx.closePath(); // ojo que por ahi hay que comentar esto
+     }
+
+    //Estas funciones las agregue yo (de aca para arriba)
+
+    function mouseUpFunc(e){  //ex mouseDownFunc
+      
+      let release_click_time;
       
       if (motion_rt_method == 'date') {
-        click_time = (new Date()).getTime();
+        release_click_time = (new Date()).getTime();
       } else {
-        click_time = performance.now();
+        release_click_time = performance.now();
       }
-      
-      e.preventDefault();
-      
-      after_response({
+      if (isDrawing === true) {
+        drawLine(ctx, x, y, e.offsetX, e.offsetY);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+      }
+
+     // e.preventDefault(); // check this
+
+      after_response({ // callback function
           key: -1,
-          rt: click_time - start_time,
-          // clickX: e.clientX,
-          // clickY: e.clientY,
+          rt: release_click_time - start_time,
           clickX: e.offsetX,
           clickY: e.offsetY,
+          pos_tracking: pos_tracking ,
+          cursor_time: cursor_time   
       });
+      
     }
 
-    //console.log(canvas.style.left);
 
     // When the 'stim' is in motion, update the position after the elapsed time.
     function update_position(stim, elapsed){
@@ -485,8 +587,11 @@ jsPsych.plugins["psychophysics"] = (function() {
     function present_image(stim){
       const scale = typeof stim.scale === 'undefined' ? 1:stim.scale;
       const tmpW = stim.img.width * scale;
-      const tmpH = stim.img.height * scale;              
-      ctx.drawImage(stim.img, 0, 0, stim.img.width, stim.img.height, stim.currentX - tmpW / 2, stim.currentY - tmpH / 2, tmpW, tmpH); 
+      const tmpH = stim.img.height * scale;  
+
+      // ctx.drawImage(stim.img, 0, 0, stim.img.width, stim.img.height, stim.currentX - tmpW / 4, stim.currentY - tmpH / 2, tmpW, tmpH); 
+      ctx.drawImage(stim.img, 0, 0, stim.img.width, stim.img.height, stim.currentX - tmpW , stim.currentY - tmpH , tmpW, tmpH); 
+  
     }
 
     function present_line(stim){
@@ -601,11 +706,19 @@ jsPsych.plugins["psychophysics"] = (function() {
     function present_sound(stim){
       // This is not needed actually.
     }
-
+    // Aca resetea en cada trial
     let startStep = null;
+    const pos_tracking = []; // Poniendolo aca se resetea en cada trial
+    cursor_time        = [];
+    
+    // startTime = startTime - startTime;
+
+
+
     let sumOfStep;
     let elapsedTime;
     //let currentX, currentY;
+
     function step(timestamp){
       if (!startStep) {
         startStep = timestamp;
@@ -617,7 +730,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (trial.stepFunc !== null) {        
+      if (trial.stepFunc !== null) {
         trial.stepFunc(trial, canvas, ctx, elapsedTime, sumOfStep); // customize
         frameRequestID = window.requestAnimationFrame(step);
         return
@@ -664,7 +777,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       document.getElementById('jspsych-content').style.maxWidth = default_maxWidth; // restore
       window.cancelAnimationFrame(frameRequestID); //Cancels the frame request
       //window.removeEventListener("mousedown", mouseDownFunc);
-      canvas.removeEventListener("mousedown", mouseDownFunc);
+      canvas.removeEventListener("mouseup", mouseUpFunc);
 
       // stop the audio file if it is playing
       // remove end event listeners if they exist
@@ -700,11 +813,16 @@ jsPsych.plugins["psychophysics"] = (function() {
         var trial_data = {
           "rt": response.rt,
           "response_type": trial.response_type,
-          //"stimulus": trial.stimuli,
+          // "stimulus": trial.stimuli,
           "key_press": response.key,
           "avg_frame_time": elapsedTime/sumOfStep,
+          "position_x": response.positionX,
+          "position_y": response.positionY,
           "click_x": response.clickX,
-          "click_y": response.clickY
+          "click_y": response.clickY,
+          "position": pos_tracking,
+          "cursor time": cursor_time
+
           // "click_x": response.clickX - centerX,
           // "click_y": response.clickY- centerY
         };
@@ -712,20 +830,23 @@ jsPsych.plugins["psychophysics"] = (function() {
         var trial_data = {
           "rt": response.rt,
           "response_type": trial.response_type,
-          //"stimulus": trial.stimuli,
+          // "stimulus": trial.stimuli, 
           "key_press": response.key,
           "avg_frame_time": elapsedTime/sumOfStep,
+          "mousePositionX": response.positionX, 
+          "mousePositionY": response.positionY,
+          "position": pos_tracking,
+          "cursor time": cursor_time
         };
 
       }
-      
-      
 
       // clear the display
       display_element.innerHTML = '';
 
+
       // move on to the next trial
-      jsPsych.finishTrial(trial_data);
+      jsPsych.finishTrial(trial_data,cursor_time);
     };
 
     // getAvgSD = function(){
@@ -734,6 +855,7 @@ jsPsych.plugins["psychophysics"] = (function() {
 
     // function to handle responses by the subject
     var after_response = function(info) {
+      
 
       // after a valid response, the stimulus will have the CSS class 'responded'
       // which can be used to provide visual feedback that a response was recorded
@@ -778,4 +900,4 @@ jsPsych.plugins["psychophysics"] = (function() {
   };
 
   return plugin;
-})();
+})(); // This final parenthesis produce the execution of the anonymous function
