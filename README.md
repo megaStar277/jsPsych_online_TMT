@@ -23,4 +23,4 @@ Content
 Credits
 -------
 
-[Applied Artificial Intelligence Laboratory](https://liaa.dc.uba.ar/), Computer science department, Faculty of Exact and Natural Sciences, University of Buenos Aires (UBA) and Institute for Research in Computer Science, CONICET-UBA.
+*[Applied Artificial Intelligence Laboratory](https://liaa.dc.uba.ar/), Computer science department, Faculty of Exact and Natural Sciences, University of Buenos Aires (UBA) and Institute for Research in Computer Science, CONICET-UBA.*
