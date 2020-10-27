@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>   
+    <!-- jsPsych library -->
+    <script src="jspsych/jspsych.js"></script>
+
+    <!-- jsPsych plugins -->    
+    <script src="jspsych/plugins/jspsych-fullscreen.js"></script>   
+    <script src="jspsych/plugins/jspsych-draw-and-mouse-tracking.js"></script> 
+    
+    <!-- jsPsych styles -->
+    <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+</head>
+<body></body>
+<script>
+    let timeline = [];
+
+    let trial = {
+
+        type: 'draw-and-mouse-tracking',
+        words: 'The dog chased the car'
+    }
+
+    timeline.push(trial);
+
+    jsPsych.init({
+        timeline: timeline,
+        on_finish: function(){
+            jsPsych.data.displayData()
+            // jsPsych.data.displayData();
+        }
+    });
+
+
+</script>
+</html>
