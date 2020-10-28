@@ -16,19 +16,19 @@
 <script>
     let timeline = [];
 
-    let trial = {
+    let x = 0;
+    let y = 0; 
+    isDrawing = false;
 
-        type: 'draw-and-mouse-tracking',
-        words: 'The dog chased the car'
+    let trial = {
+        type: 'draw-and-mouse-tracking'
     }
 
-    timeline.push(trial);
-
     jsPsych.init({
-        timeline: timeline,
+        timeline: [trial,trial,trial],
         on_finish: function(){
             jsPsych.data.displayData()
-            // jsPsych.data.displayData();
+        
         }
     });
 

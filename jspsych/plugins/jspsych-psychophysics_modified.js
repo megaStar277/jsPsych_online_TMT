@@ -178,9 +178,10 @@ jsPsych.plugins["psychophysics"] = (function() {
 
           const elm_jspsych_content = document.getElementById('jspsych-content');
           const style_jspsych_content = window.getComputedStyle(elm_jspsych_content); // stock
-          default_maxWidth = style_jspsych_content.maxWidth;
+          default_maxWidth = style_jspsych_content.maxWidth; // The maxWidth property sets or returns the maximum width of an element
           elm_jspsych_content.style.maxWidth = 'none'; // The default value is '95%'. To fit the window
 
+          // new canvas
           let new_html =
             '<canvas id="myCanvas" class="jspsych-canvas" width=' +
             trial.canvas_width +
@@ -196,6 +197,7 @@ jsPsych.plugins["psychophysics"] = (function() {
         // allow to respond using keyboard or mouse
         jsPsych.pluginAPI.setTimeout(function() {
           if (trial.response_type === 'key'){
+
             if (trial.choices != jsPsych.NO_KEYS) {
               var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
                 callback_function: after_response,
@@ -205,6 +207,7 @@ jsPsych.plugins["psychophysics"] = (function() {
                 allow_held_key: false
               });
             }  
+
           } else {
           
     if (motion_rt_method == 'date') { // date y perfomance son metodos para el rt
@@ -252,7 +255,7 @@ jsPsych.plugins["psychophysics"] = (function() {
      // ***************************** agregado por mi (para arriba) *****************************
 
       } // aca cierra un else
-    }, trial.response_start_time); // cierra todo jsPsych.pluginAPI.setTimeout(function()
+    }, trial.response_start_time); //Este es el tiempo antes de iniciar. Como el default es 0 no lo toco. cierra todo jsPsych.pluginAPI.setTimeout(function()
 
     // add prompt
     if(trial.prompt !== null){
@@ -261,7 +264,6 @@ jsPsych.plugins["psychophysics"] = (function() {
 
     // draw
     display_element.innerHTML = new_html;
-
    
     var canvas = document.getElementById('myCanvas'); 
 
@@ -281,7 +283,7 @@ jsPsych.plugins["psychophysics"] = (function() {
 
     const set_functions = {
       sound: set_sound,
-      image: set_image,
+      image: set_image, //quizas lo necesite 
       line: set_line,
       rect: set_rect,
       circle: set_circle,
@@ -343,7 +345,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       stim.currentY = stim.startY;
     }
 
-    function calc_velocity (direction, stim){
+    function calc_velocity (direction, stim){ //Puede ser util?
       let pix_sec , pix_frame, startPos, endPos;
       if (direction === 'horiz'){
         pix_sec = stim.horiz_pix_sec;
@@ -584,7 +586,7 @@ jsPsych.plugins["psychophysics"] = (function() {
       sound: present_sound
     }
     
-    function present_image(stim){
+    function present_image(stim){ //quizas sea util, pero voy a intentar evitarla
       const scale = typeof stim.scale === 'undefined' ? 1:stim.scale;
       const tmpW = stim.img.width * scale;
       const tmpH = stim.img.height * scale;  
@@ -714,9 +716,8 @@ jsPsych.plugins["psychophysics"] = (function() {
     // startTime = startTime - startTime;
 
 
-
     let sumOfStep;
-    let elapsedTime;
+    let elapsedTime; //puede ser util
     //let currentX, currentY;
 
     function step(timestamp){
@@ -766,7 +767,7 @@ jsPsych.plugins["psychophysics"] = (function() {
     }
 
     // store response
-    var response = {
+    var response = { //puede ser util
       rt: null,
       key: null
     };
@@ -807,9 +808,10 @@ jsPsych.plugins["psychophysics"] = (function() {
       // if(context !== null && response.rt !== null){
       //   response.rt = Math.round(response.rt * 1000);
       // }
-
+      
       // gather the data to store for the trial
       if (typeof response.clickX !== 'undefined'){
+        console.log(`entre a response.clickX !== 'undefined'`);
         var trial_data = {
           "rt": response.rt,
           "response_type": trial.response_type,
