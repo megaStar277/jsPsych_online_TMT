@@ -21,7 +21,9 @@
     isDrawing = false;
 
     let trial = {
-        type: 'draw-and-mouse-tracking'
+        type: 'draw-and-mouse-tracking',
+        trial_duration: 5000,
+        //stimulus: jsPsych.timelineVariable('image') //Tengo que hacer algo asi pero donde el estimulo sea el background del canvas
     }
 
     jsPsych.init({

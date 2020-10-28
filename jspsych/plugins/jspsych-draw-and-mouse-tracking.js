@@ -49,7 +49,6 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       default_maxWidth = style_jspsych_content.maxWidth;
       elm_jspsych_content.style.maxWidth = 'none'; // The default value is '95%'. To fit the window
       
-      // draw
       
       let new_html =
       '<canvas id="myCanvas" class="jspsych-canvas" width=' +
@@ -59,7 +58,15 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       ' style="background-color:' +
       trial.background_color +
       ';"></canvas>';
+
+      var background = new Image();
+      background.src = "http://i.imgur.com/yf6d9SX.jpg";
+
+      background.onload = function(){
+          ctx.drawImage(background,0,0);   
+      }
       
+      // draw
       display_element.innerHTML = new_html;
   
       var canvas = document.getElementById('myCanvas'); 
@@ -255,7 +262,6 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       }
     };
 
-    
     // end trial if trial_duration is set
     if (trial.trial_duration !== null) {
       jsPsych.pluginAPI.setTimeout(function() {
