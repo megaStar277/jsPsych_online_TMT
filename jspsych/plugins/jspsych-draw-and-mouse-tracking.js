@@ -5,6 +5,12 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
     plugin.info = {
       name: 'draw-and-mouse-tracking',
       parameters: {
+        stimulus: {
+          type: jsPsych.plugins.parameterType.IMAGE,
+          pretty_name: "Stimulus",
+          default: undefined,
+          description: "The image to be displayed",
+        },
         canvas_width: {
           type: jsPsych.plugins.parameterType.INT,
           pretty_name: 'Canvas width',
@@ -17,7 +23,7 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
           default: window.innerHeight,
           description: 'The height of the canvas.'
         },
-        background_color: {
+        canvas_background_color: {
           type: jsPsych.plugins.parameterType.STRING,
           pretty_name: 'Background color',
           default: 'grey',
@@ -56,15 +62,17 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       " height=" +
       trial.canvas_height +
       ' style="background-color:' +
-      trial.background_color +
+      trial.canvas_background_color +
       ';"></canvas>';
 
       var background = new Image();
-      background.src = "http://i.imgur.com/yf6d9SX.jpg";
+      background.src = trial.stimulus;
 
+      
       background.onload = function(){
           ctx.drawImage(background,0,0);   
       }
+    
       
       // draw
       display_element.innerHTML = new_html;

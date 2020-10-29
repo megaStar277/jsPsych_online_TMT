@@ -6,7 +6,9 @@
 
     <!-- jsPsych plugins -->    
     <script src="jspsych/plugins/jspsych-fullscreen.js"></script>   
-    <script src="jspsych/plugins/jspsych-draw-and-mouse-tracking.js"></script> 
+    <script src="jspsych/plugins/jspsych-draw-and-mouse-tracking.js"></script>
+    <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script> 
+    
     
     <!-- jsPsych styles -->
     <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
@@ -20,14 +22,160 @@
     let y = 0; 
     isDrawing = false;
 
-    let trial = {
-        type: 'draw-and-mouse-tracking',
-        trial_duration: 5000,
-        //stimulus: jsPsych.timelineVariable('image') //Tengo que hacer algo asi pero donde el estimulo sea el background del canvas
+    //Shuffle using Fisher-Yates
+function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+  
+ 
+    // presentation time of the fixation cross
+    var delayInMilliseconds = 1000; // it´s an indirect way to control the momento of presentation of images
+
+    //For loading all images, but we'll present half 
+    
+    images = ["./stimuli/cond1/stim_1_A.jpg", "./stimuli/cond1/stim_2_B.jpg", "./stimuli/cond1/stim_3_A.jpg", "./stimuli/cond1/stim_4_B.jpg", "./stimuli/cond1/stim_5_A.jpg", 
+              "./stimuli/cond1/stim_6_B.jpg", "./stimuli/cond1/stim_7_A.jpg", "./stimuli/cond1/stim_8_B.jpg", "./stimuli/cond1/stim_9_A.jpg", "./stimuli/cond1/stim_10_B.jpg", 
+              "./stimuli/cond1/stim_11_A.jpg", "./stimuli/cond1/stim_12_B.jpg", "./stimuli/cond1/stim_13_A.jpg", "./stimuli/cond1/stim_14_B.jpg", "./stimuli/cond1/stim_15_A.jpg",
+              "./stimuli/cond1/stim_16_B.jpg", "./stimuli/cond1/stim_17_A.jpg", "./stimuli/cond1/stim_18_B.jpg", "./stimuli/cond1/stim_19_A.jpg", "./stimuli/cond1/stim_20_B.jpg",
+              "./stimuli/cond2/stim_2_A.jpg", "./stimuli/cond2/stim_1_B.jpg", "./stimuli/cond2/stim_4_A.jpg", "./stimuli/cond2/stim_3_B.jpg", "./stimuli/cond2/stim_6_A.jpg", 
+              "./stimuli/cond2/stim_5_B.jpg", "./stimuli/cond2/stim_8_A.jpg", "./stimuli/cond2/stim_7_B.jpg", "./stimuli/cond2/stim_10_A.jpg","./stimuli/cond2/stim_9_B.jpg",
+              "./stimuli/cond2/stim_12_A.jpg","./stimuli/cond2/stim_11_B.jpg","./stimuli/cond2/stim_14_A.jpg","./stimuli/cond2/stim_13_B.jpg","./stimuli/cond2/stim_16_A.jpg",
+              "./stimuli/cond2/stim_15_B.jpg", "./stimuli/cond2/stim_18_A.jpg", "./stimuli/cond2/stim_17_B.jpg","./stimuli/cond2/stim_20_A.jpg", "./stimuli/cond2/stim_19_B.jpg"]
+
+    // Two conditions with 20 stimuli each 
+    const images_condition_1 = images.slice(0,20);
+    const images_condition_2 = images.slice(20,40);
+
+    //Trials A and B separation inside each condition
+    const images_condition_1_A = [];
+    const images_condition_1_B = [];
+
+    const images_condition_2_A = [];
+    const images_condition_2_B = [];
+
+    //We need a for lop in order to divide images_condition_x in A type and B type trials.
+
+    for (idx = 0; idx < images_condition_1.length; idx++) {
+        if (idx % 2 == 0){
+            images_condition_1_A.push(images_condition_1[idx])
+        }else {
+            images_condition_1_B.push(images_condition_1[idx])
+        }
     }
 
+    for (idx = 0; idx < images_condition_2.length; idx++) {
+        if (idx % 2 == 0){
+            images_condition_2_A.push(images_condition_2[idx])
+        }else {
+            images_condition_2_B.push(images_condition_2[idx])
+        }
+    }
+
+    //Shuffle every sub group of images
+    images_condition_1_A_shuffled = shuffle(images_condition_1_A);
+    images_condition_1_B_shuffled = shuffle(images_condition_1_B);
+
+    images_condition_2_A_shuffled = shuffle(images_condition_2_A);
+    images_condition_2_B_shuffled = shuffle(images_condition_2_B);
+
+    //RE-DO 2 arrays, randomized but with intercalated A/B trials
+    let final_images = []; //I can concatenate  two sets of conditions at end
+
+    let final_images_condition_1 = [];
+    let final_images_condition_2 = [];
+
+    for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
+        final_images_condition_1.push(images_condition_1_A_shuffled[idx])
+        final_images_condition_1.push(images_condition_1_B_shuffled[idx])
+    }    
+    
+    for (idx = 0; idx < (images_condition_1_A_shuffled.length); idx++) {
+        final_images_condition_2.push(images_condition_2_A_shuffled[idx])
+        final_images_condition_2.push(images_condition_2_B_shuffled[idx])
+    }
+
+    // final_images = final_images_condition_1.concat(final_images_condition_2);
+
+
+    // //Random number between 0 and 1 used to choose the set of stimuli btween the 2 groups randomly
+    const random_number = Math.random()
+    // console.log(random_number)
+
+    // store all images names in an array of objects {'fileName': images[imag]}
+    let container = { }; // main object
+    timelineVariables = [];   
+
+    //select randomly between two set of images
+    if (random_number > 0.5){
+        // console.log('mayor que 0.5')
+        for (imag in final_images_condition_1){
+            // imag = 'stimuli/'+imag;
+            timelineVariables.push(container['prop'+ imag ]   = { 'fileName': final_images_condition_1[imag]}
+            ); 
+    }
+    } else {
+        for (imag in final_images_condition_2){
+            // console.log('menor que 0.5')
+            // imag = 'stimuli/'+imag;
+            timelineVariables.push(container['prop'+ imag ]   = { 'fileName': final_images_condition_2[imag]}
+            ); 
+        }
+    }
+
+
+    // let trial = {
+    //     type: 'draw-and-mouse-tracking',
+    //     trial_duration: 5000,
+    //     canvas_background_color: 'red',
+    //     timeline: [
+    //     {stimulus: "https://static.nationalgeographic.es/files/styles/image_3200/public/cat-collars-28306_cbm9631.jpg"},
+    //     {stimulus: 'https://lh3.googleusercontent.com/aR34MxRBretppyADbJcfqIZp-LraO1ELhk00lTZw0Q7MF1ebUKZeggeQkjBuZCCmYRSYNzr8=w640-h400-e365-rj-sc0x00ffffff'},
+    //     {stimulus: 'https://static.nationalgeographic.es/files/styles/image_3200/public/cat-collars-28306_cbm9631.jpg'}
+    //     ]
+    //     // stimulus: jsPsych.timelineVariable('fileName') //Tengo que hacer algo asi pero donde el estimulo sea el background del canvas
+    //     // stimulus: jsPsych.timelineVariable('image') //Tengo que hacer algo asi pero donde el estimulo sea el background del canvas
+    // }
+    
+    let trial = {
+
+    timeline: [
+        {
+            type: 'html-keyboard-response', //fixation cross
+            stimulus: '+',
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 500
+        },
+        {
+            type: 'draw-and-mouse-tracking',
+            trial_duration: 5000,
+            canvas_background_color: 'red',
+            stimulus: jsPsych.timelineVariable('fileName')
+        }
+    ],
+    timeline_variables: timelineVariables
+        // { face: "https://static.nationalgeographic.es/files/styles/image_3200/public/cat-collars-28306_cbm9631.jpg" },
+        // { face: 'https://lh3.googleusercontent.com/aR34MxRBretppyADbJcfqIZp-LraO1ELhk00lTZw0Q7MF1ebUKZeggeQkjBuZCCmYRSYNzr8=w640-h400-e365-rj-sc0x00ffffff'},
+        // { face: "https://static.nationalgeographic.es/files/styles/image_3200/public/cat-collars-28306_cbm9631.jpg" }
+    
+}
+
     jsPsych.init({
-        timeline: [trial,trial,trial],
+        timeline: [trial],
         on_finish: function(){
             jsPsych.data.displayData()
         
