@@ -50,6 +50,10 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
     plugin.trial = function(display_element, trial){
       //display_element is a HTML DOM element
       
+      //background color //I need to improve this
+      document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
+
+      
       const elm_jspsych_content = document.getElementById('jspsych-content');
       const style_jspsych_content = window.getComputedStyle(elm_jspsych_content); // stock
       default_maxWidth = style_jspsych_content.maxWidth;
@@ -65,24 +69,43 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       trial.canvas_background_color +
       ';"></canvas>';
 
-      var background = new Image();
-      background.src = trial.stimulus;
 
-      
-      background.onload = function(){
-          ctx.drawImage(background,0,0);   
-      }
-    
-      
-      // draw
-      display_element.innerHTML = new_html;
-  
-      var canvas = document.getElementById('myCanvas'); 
-      const ctx = canvas.getContext('2d');
-      const centerX = canvas.width/2; // OJO, ACA MODIFIQUE
-      const centerY = canvas.height/2; // OJO, ACA MODIFIQUE
-  
-      let start_time;
+    imageObj = new Image();  // declare globally
+
+    imageObj.onload = function() {
+
+        // now set up handler when image is actually loaded
+        // - else drawImage will fail (width, height is not available and no data)
+        window.addEventListener('resize', resizeCanvas, false);
+
+        // initial call to draw image first time
+        resizeCanvas();  
+    };
+
+    imageObj.src = trial.stimulus;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        drawStuff(); 
+    }
+
+    function drawStuff() {
+        var x = (canvas.width  - imageObj.width ) * 0.5,
+            y = (canvas.height - imageObj.height) * 0.5;
+
+        ctx.drawImage(imageObj, x, y);
+    }        
+        
+
+    // draw
+    display_element.innerHTML = new_html;
+
+    var canvas = document.getElementById('myCanvas'); 
+    const ctx = canvas.getContext('2d');
+
+    let start_time;
    
     // trial time init
     start_time = performance.now();
@@ -188,34 +211,12 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
     });
   }
   
-  
-
-    if ( ! canvas || ! canvas.getContext ) {
+    
+    if ( ! canvas || ! canvas.getContext ) { // util?
       alert('This browser does not support the canvas element.');
       return;
     }
   
-    //Fixation cross
-    function present_cross(stim){
-      ctx.beginPath();            
-      ctx.lineWidth = stim.line_width;
-      ctx.lineJoin = stim.lineJoin;
-      ctx.miterLimit = stim.miterLimit;
-      ctx.strokeStyle = stim.line_color;
-      const x1 = stim.currentX;
-      const y1 = stim.currentY - stim.line_length/2;
-      const x2 = stim.currentX;
-      const y2 = stim.currentY + stim.line_length/2;                
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      const x3 = stim.currentX - stim.line_length/2;
-      const y3 = stim.currentY;
-      const x4 = stim.currentX + stim.line_length/2;
-      const y4 = stim.currentY;                
-      ctx.moveTo(x3, y3);
-      ctx.lineTo(x4, y4);
-      ctx.stroke();
-    }
 
      // store response
      var response = { 
@@ -223,7 +224,6 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       clickX: null,
       clickY: null,
     };
-
 
 
     // function to end trial when it is time
