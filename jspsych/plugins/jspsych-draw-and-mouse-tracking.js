@@ -13,21 +13,33 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
         },
         canvas_width: {
           type: jsPsych.plugins.parameterType.INT,
-          pretty_name: 'Canvas width',
           default: window.innerWidth,
           description: 'The width of the canvas.'
         },
         canvas_height: {
           type: jsPsych.plugins.parameterType.INT,
-          pretty_name: 'Canvas height',
           default: window.innerHeight,
           description: 'The height of the canvas.'
         },
         canvas_background_color: {
           type: jsPsych.plugins.parameterType.STRING,
-          pretty_name: 'Background color',
           default: 'grey',
           description: 'The background color of the canvas.'
+        },
+        content_wrapper_color: {
+          type: jsPsych.plugins.parameterType.STRING,
+          default: 'grey',
+          description: 'The color of the content wrapper.'
+        },
+        drawline_color: {
+          type: jsPsych.plugins.parameterType.STRING,
+          default: 'green',
+          description: 'The color of the drawline.'
+        },
+        lineWidth: {
+          type: jsPsych.plugins.parameterType.INT,
+          default: 2,
+          description: 'The thickness of the drawline.'
         },
         response_ends_trial: {
           type: jsPsych.plugins.parameterType.BOOL,
@@ -44,6 +56,8 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
         
       }
     }
+
+   
     
     let default_maxWidth;
     
@@ -51,13 +65,8 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       //display_element is a HTML DOM element
       
       //background color //I need to improve this
-      document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = 'gray'; //Background color
-
+      document.getElementsByClassName("jspsych-content-wrapper")[0].style.backgroundColor = trial.content_wrapper_color; //Background color
       
-      const elm_jspsych_content = document.getElementById('jspsych-content');
-      const style_jspsych_content = window.getComputedStyle(elm_jspsych_content); // stock
-      default_maxWidth = style_jspsych_content.maxWidth;
-      elm_jspsych_content.style.maxWidth = 'none'; // The default value is '95%'. To fit the window
       
       
       let new_html =
@@ -84,7 +93,7 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
 
     imageObj.src = trial.stimulus;
 
-    function resizeCanvas() {
+    function resizeCanvas() { //ACA TENGO QUE VER EL TAMANIO
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -97,7 +106,6 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
 
         ctx.drawImage(imageObj, x, y);
     }        
-        
 
     // draw
     display_element.innerHTML = new_html;
@@ -109,8 +117,6 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
    
     // trial time init
     start_time = performance.now();
-  
-    //***************************** logica de dibujar (para abajo) ****************************************
         
     canvas.addEventListener("mouseup", mouseUpFunc);
     
@@ -141,12 +147,11 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       }
     });
 
-    // ***************************** logica de dibujar (para arriba) *****************************
-        // chequear que poniendolo aca se resetee en cada trial
-        let pos_tracking = []; 
+        // data
+        let pos_tracking       = []; 
         let cursor_time        = [];
 
-        //Estas funciones las agregue yo (de aca para abajo) *********************************************
+        
         function mouseMove(e){
 
           var x = e.clientX;
@@ -175,11 +180,9 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
           }
          
         function drawLine(ctx, x1, y1, x2, y2) {
-          // console.log('entre a DRAWLINE');
-    
           ctx.beginPath();
-          ctx.strokeStyle = 'green'; // drawLine color
-          ctx.lineWidth = 2;
+          ctx.strokeStyle = trial.drawline_color; // drawLine color
+          ctx.lineWidth = trial.lineWidth;
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2) 
           ctx.stroke();
@@ -199,7 +202,7 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
             y = 0;
             isDrawing = false;
           }
-      // e.preventDefault(); // check this
+
     
       after_response({ // callback function
         key: -1,
@@ -217,7 +220,6 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       return;
     }
   
-
      // store response
      var response = { 
       rt: null,
@@ -225,10 +227,9 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
       clickY: null,
     };
 
-
     // function to end trial when it is time
     var end_trial = function() {
-      document.getElementById('jspsych-content').style.maxWidth = default_maxWidth; // restore
+      // document.getElementById('jspsych-content').style.maxWidth = default_maxWidth; // restore
       //window.removeEventListener("mousedown", mouseDownFunc);
       canvas.removeEventListener("mouseup", mouseUpFunc);
 
@@ -237,14 +238,13 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
 
     // gather the data to store for the trial
 
-      var trial_data = {
-        "rt": response.rt,
-        "click_x": response.clickX, //por que viene de repose si ahi no hay clickX ?
-        "click_y": response.clickY,
-        "position": pos_tracking,
-        "cursor time": cursor_time
-      };
-
+    var trial_data = {
+      "rt": response.rt,
+      "click_x": response.clickX, //por que viene de repose si ahi no hay clickX ?
+      "click_y": response.clickY,
+      "position": pos_tracking,
+      "cursor time": cursor_time
+    };
 
     // clear the display
     display_element.innerHTML = '';
@@ -256,16 +256,8 @@ jsPsych.plugins['draw-and-mouse-tracking'] = (function(){
 
     var after_response = function(info) {
     
-      // after a valid response, the stimulus will have the CSS class 'responded'
-      // which can be used to provide visual feedback that a response was recorded
-      //display_element.querySelector('#jspsych-html-keyboard-response-stimulus').className += ' responded';
 
-      // only record the first response
-      if (response.key == null) {
-        response = info;
-      }
-
-      if (trial.response_ends_trial) {
+      if (trial.response_ends_trial) { //LO ESTOY USANDO? UTIL? 
         end_trial();
       }
     };

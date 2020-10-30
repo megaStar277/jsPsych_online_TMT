@@ -58,17 +58,13 @@ jsPsych.plugins["resize"] = (function() {
   plugin.trial = function(display_element, trial) {
 
     
-    // var dpi_x = document.getElementById('dpi').offsetWidth;
-    // var dpi_y = document.getElementById('dpi').offsetHeight;
-    // var width = screen.width / dpi_x;
-    // var height = screen.height / dpi_y;
 
-    // console.log (width + ' x ' + height);
     
-    var aspect_ratio = trial.item_width / trial.item_height;
+    var aspect_ratio = trial.item_width / trial.item_height; //item_width e item_height es dato (se lo pasamos por parametro)
 
     // variables to determine div size
-    if(trial.item_width >= trial.item_height){
+    // Aca elije cual es la dimension mas grande de las que les pasamos y la asigna a starting_size
+    if(trial.item_width >= trial.item_height){ 
       var start_div_width = trial.starting_size;
       var start_div_height = Math.round(trial.starting_size / aspect_ratio);
     } else {
@@ -88,7 +84,11 @@ jsPsych.plugins["resize"] = (function() {
       //small div 
       `<div id="jspsych-resize-handle" style="cursor: nwse-resize; background-color: red; width: 10px; height: 10px; border: 
         2px solid lightsteelblue; position: absolute; bottom: 0; right: 0;"></div>`;
-    html += "</div>";
+    html += "</div>" 
+    html += '<div id="dpi" style="height: 1in; width: 1in; left: 100%; position: fixed; top: 100%;"></div>' 
+
+   
+     
 
     if (trial.prompt !== null) {
       html += trial.prompt;
@@ -101,6 +101,15 @@ jsPsych.plugins["resize"] = (function() {
 
     // render
     display_element.innerHTML = html;
+
+
+    var dpi_x = document.getElementById('dpi').offsetWidth;
+    var dpi_y = document.getElementById('dpi').offsetHeight;
+    var width = screen.width / dpi_x;
+    var height = screen.height / dpi_y;
+
+    console.log (dpi_x + ' x ' + dpi_y);
+    console.log (width + ' x ' + height);
 
     // listens for the click
     document.getElementById("jspsych-resize-btn").addEventListener('click', function() {
@@ -117,10 +126,12 @@ jsPsych.plugins["resize"] = (function() {
       dragging = true;
       origin_x = e.pageX; //An integer value, in pixels, indicating the X coordinate at which the mouse pointer was located when the event occurred.
       origin_y = e.pageY;
+      // el scale div es esto: document.getElementById("jspsych-resize-div")
       cx = parseInt(scale_div.style.width); //convert to int
       cy = parseInt(scale_div.style.height);
     }
 
+    // Le damos logica al cuadradito pequenio
     display_element.querySelector('#jspsych-resize-handle').addEventListener('mousedown', mousedownevent);
 
     var mouseupevent = function(e){

@@ -759,7 +759,7 @@ jsPsych.plugins["psychophysics"] = (function() {
     }
     
     // Start the step function.
-    let frameRequestID = window.requestAnimationFrame(step);
+    let frameRequestID = window.requestAnimationFrame(step);  
 
     
     deg2rad = function (degrees){
